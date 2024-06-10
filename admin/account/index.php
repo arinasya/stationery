@@ -5,21 +5,20 @@ foreach($user->fetch_array() as $k =>$v){
 }
 ?>
 <?php if($_settings->chk_flashdata('success')): ?>
-    <div class="alert alert-success"><?php echo $_settings->flashdata('success'); ?></div>
-<?php endif; ?>
-
-<?php page_require_level(2); ?>
-<?php if($_settings->chk_flashdata('error')): ?>
+<script>
+	alert_toast("<?php echo $_settings->flashdata('success') ?>",'success')
+</script>
+<?php endif;?>
 <div class="card card-outline card-primary">
 	<div class="card-body">
 		<div class="container-fluid">
 			<div id="msg"></div>
-			<form action="" id="edit-user">	
+			<form action="" id="manage-account">	
 				<input type="hidden" name="id" value="<?php echo $_settings->userdata('id') ?>">
 				<div class="form-group">
-					<label for="name">Full Name</label>
+					<label for="name">Name</label>
 					<input type="text" name="name" id="name" class="form-control" value="<?php echo isset($meta['name']) ? $meta['name']: '' ?>" required>
-				</div>
+                </div>
 				<div class="form-group">
 					<label for="username">Username</label>
 					<input type="text" name="username" id="username" class="form-control" value="<?php echo isset($meta['username']) ? $meta['username']: '' ?>" required  autocomplete="off">
@@ -40,7 +39,7 @@ foreach($user->fetch_array() as $k =>$v){
 	<div class="card-footer">
 			<div class="col-md-12">
 				<div class="row">
-					<button class="btn btn-sm btn-primary" form="manage-user">Update</button>
+					<button class="btn btn-sm btn-primary" form="manage-account">Update</button>
 				</div>
 			</div>
 		</div>
@@ -64,7 +63,7 @@ foreach($user->fetch_array() as $k =>$v){
 	        reader.readAsDataURL(input.files[0]);
 	    }
 	}
-	$('#manage-user').submit(function(e){
+	$('#manage-account').submit(function(e){
 		e.preventDefault();
 		start_loader()
 		$.ajax({
