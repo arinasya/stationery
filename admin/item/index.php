@@ -1,5 +1,7 @@
 <?php if($_settings->chk_flashdata('success')): ?>
-    <div class="alert alert-success"><?php echo $_settings->flashdata('success'); ?></div>
+    <div class="alert alert-success"><?php echo $_settings->flashdata('success');
+	if($_SESSION['user_level']==1) ?></div>
+	
 <?php endif; ?>
 
 
@@ -16,9 +18,9 @@
 			<table class="table table-bordered table-stripped">
 				<colgroup>
 					<col width="5%">
-					<col width="15%">
 					<col width="25%">
-					<col width="30%">
+					<col width="15%">
+					<col width="15%">
 					<col width="10%">
 					<col width="15%">
 				</colgroup>
@@ -27,8 +29,8 @@
 						<th>#</th>
 						<th>Date Created</th>
 						<th>Item</th>
-						<th>Quantity</th>
 						<th>Price</th>
+						<th>Charge code</th>
 						<th>Status</th>
 						<th>Action</th>
 					</tr>
@@ -36,7 +38,10 @@
 				<tbody>
 					<?php 
 					$i = 1;
-						$qry = $conn->query("SELECT * from `items` order by unix_timestamp(date) desc ");
+						$qry = $conn->query("SELECT * FROM items ORDER BY unix_timestamp(date_created) DESC ");
+						if (!$qry) {
+							die("Query failed: " . $conn->error);
+						}
 						while($row = $qry->fetch_assoc()):
 							foreach($row as $k=> $v){
 								$row[$k] = trim(stripslashes($v));
@@ -47,8 +52,8 @@
 							<td class="text-center"><?php echo $i++; ?></td>
 							<td><?php echo date("Y-m-d H:i",strtotime($row['date_created'])) ?></td>
 							<td><?php echo $row['name'] ?></td>
-							<td ><?php echo $row['quantity'] ?></td>
 							<td><?php echo $row['price'] ?></td>
+							<td><?php echo $row['charge_code']?></td>
 							<td class="text-center">
                                 <?php if($row['status'] == 1): ?>
                                     <span class="badge badge-success">Active</span>

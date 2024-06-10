@@ -1,3 +1,9 @@
+<?php
+/*if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+ }*/
+//  session_start();
+?>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid px-4 px-lg-5 ">
                 <button class="navbar-toggler btn btn-sm" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -21,24 +27,24 @@
                         $vendor_qry = $conn->query("SELECT * FROM vendors where status = 1  limit 3");
                         $count_vendors =$conn->query("SELECT * FROM vendors where status = 1 ")->num_rows;
                         while($crow = $vendor_qry->fetch_assoc()):
-                          $item_qry = $conn->query("SELECT * FROM items where status = 1 and parent_id = '{$crow['id']}'");
+                          $item_qry = $conn->query("SELECT * FROM items where status = 1 and id = '{$crow['id']}'");
                           if($item_qry->num_rows <= 0):
                         ?>
-                        <li class="nav-item"><a class="nav-link" aria-current="page" href="./?p=items&c=<?php echo md5($crow['id']) ?>"><?php echo $crow['name'] ?></a></li>
+                        <li class="nav-item"><a class="nav-link" aria-current="page" href="./?p=items&v=<?php echo md5($crow['id']) ?>"><?php echo $crow['name'] ?></a></li>
                         
                         <?php else: ?>
                         <li class="nav-item dropdown">
                           <a class="nav-link dropdown-toggle" id="navbarDropdown<?php echo $crow['id'] ?>" href="#" role="button" data-toggle="dropdown" aria-expanded="false"><?php echo $crow['name'] ?></a></a>
                             <ul class="dropdown-menu  p-0" aria-labelledby="navbarDropdown<?php echo $crow['id'] ?>">
                               <?php while($srow = $item_qry->fetch_assoc()): ?>
-                                <li><a class="dropdown-item border-bottom" href="./?p=items&c=<?php echo md5($crow['id']) ?>&s=<?php echo md5($srow['id']) ?>"><?php echo $srow['name'] ?></a></li>
+                                <li><a class="dropdown-item border-bottom" href="./?p=items&v=<?php echo md5($crow['id']) ?>&i=<?php echo md5($srow['id']) ?>"><?php echo $srow['name'] ?></a></li>
                             <?php endwhile; ?>
                             </ul>
                         </li>
                         <?php endif; ?>
                         <?php endwhile; ?>
                         <?php if($count_vendors > 3): ?>
-                        <li class="nav-item"><a class="nav-link" href="./?p=view_vendors">All Vendors</a></li>
+                        <li class="nav-item"><a class="nav-link" href="./?p=view_vendor">All Vendors</a></li>
                         <?php endif; ?>
                         
                     </ul>
@@ -71,7 +77,7 @@
 <script>
   $(function(){
     $('#login-btn').click(function(){
-      uni_modal("","login.php")
+      uni_modal("","test.php")
     })
     $('#navbarResponsive').on('show.bs.collapse', function () {
         $('#mainNav').addClass('navbar-shrink')

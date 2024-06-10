@@ -18,26 +18,35 @@
 					<col width="5%">
 					<col width="15%">
 					<col width="20%">
-					<col width="35%">
 					<col width="10%">
-					<col width="15%">
+					<col width="10%">
+					
 				</colgroup>
 				<thead>
 					<tr>
 						<th>#</th>
 						<th>Name</th>
+						<th>Date Created</th>
 						<th>Status</th>
 						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody>
-					<?php 
+					<?php $i = 1;
+						$qry = $conn->query("SELECT * FROM vendors ORDER BY unix_timestamp(date_created) DESC ");
+						if (!$qry) {
+							die("Query failed: " . $conn->error);
+						}
 						while($row = $qry->fetch_assoc()):
-                            $row['description'] = strip_tags(stripslashes(html_entity_decode($row['description'])));
+							foreach($row as $k=> $v){
+								$row[$k] = trim(stripslashes($v));
+							}      
 					?>
+					
 						<tr>
 							<td class="text-center"><?php echo $i++; ?></td>
 							<td><?php echo $row['name'] ?></td>
+							<td><?php echo date("Y-m-d H:i",strtotime($row['date_created'])) ?></td>
 							<td class="text-center">
                                 <?php if($row['status'] == 1): ?>
                                     <span class="badge badge-success">Active</span>

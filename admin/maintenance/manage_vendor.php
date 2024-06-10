@@ -37,7 +37,7 @@ if(isset($_GET['id']) && $_GET['id'] > 0){
 <script>
   
 	$(document).ready(function(){
-		$('#category-form').submit(function(e){
+		$('#vendor-form').submit(function(e){
 			e.preventDefault();
             var _this = $(this)
 			 $('.err-msg').remove();

@@ -42,16 +42,16 @@
     </style>
 
      <!-- jQuery -->
-    <script src="<?php echo base_url ?>plugins/jquery/jquery.min.js"></script>
+  <script src="<?php echo base_url ?>plugins/jquery/jquery.min.js"></script> 
     <!-- jQuery UI 1.11.4 -->
-    <script src="<?php echo base_url ?>plugins/jquery-ui/jquery-ui.min.js"></script>
+   <!--<script src="<?php echo base_url ?>plugins/jquery-ui/jquery-ui.min.js"></script>-->
     <!-- SweetAlert2 -->
     <script src="<?php echo base_url ?>plugins/sweetalert2/sweetalert2.min.js"></script>
     <!-- Toastr -->
-    <script src="<?php echo base_url ?>plugins/toastr/toastr.min.js"></script>
+    <!--<script src="<?php echo base_url ?>plugins/toastr/toastr.min.js"></script>-->
     <script>
         var _base_url_ = '<?php echo base_url ?>';
     </script>
-    <script src="<?php echo base_url ?>dist/js/script.js"></script>
+     <script src="<?php echo base_url ?>dist/js/script.js"></script>
 
   </head>

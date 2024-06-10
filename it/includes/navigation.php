@@ -1,4 +1,13 @@
+<?php
+if(session_status()== PHP_SESSION_NONE){
+  session_start();
+}
+//session_start();
+$user_level = isset($_SESSION['user_level']) ? $_SESSION['user_level'] : 0;
+?>
 </style>
+<meta charset="UTF-8">
+
 <!-- Main Sidebar Container -->
       <aside class="main-sidebar sidebar-dark-primary elevation-4 sidebar-no-expand">
         <!-- Brand Logo -->
@@ -31,7 +40,7 @@
                         </p>
                       </a>
                     </li> 
-                    <?php if($_SESSION['user_role']==1){?><li class="nav-item dropdown">
+                    <?php if($_SESSION['user_level']==1){?><li class="nav-item dropdown">
                       <a href="<?php echo base_url ?>it/?page=group" class="nav-link nav-group">
                         <i class="nav-icon fas fa-tags"></i>
                         <p>
@@ -40,7 +49,7 @@
                       </a>
                     </li>
                       <?php }?>
-                      <?php if($_SESSION['user_role']== 1){?><li class="nav-item dropdown">
+                      <?php if($_SESSION['user_level']== 1){?><li class="nav-item dropdown">
                       <a href="<?php echo base_url ?>it/?page=users" class="nav-link nav-user">
                         <i class="nav-icon fas fa-list"></i>
                         <p>
@@ -49,7 +58,7 @@
                       </a>
                     </li>
                      <?php }?>
-                     <?php if($_SESSION['user_role']==2){?><li class="nav-item dropdown">
+                     <?php if($_SESSION['user_level']==2){?><li class="nav-item dropdown">
                       <a href="<?php echo base_url ?>admin/?page=item" class="nav-link nav-item">
                         <i class="nav-icon fas fa-tags"></i>
                         <p>
@@ -58,7 +67,7 @@
                       </a>
                     </li>
                     <?php }?>
-                    <?php if($_SESSION['user_role']==2){?><li class="nav-item dropdown">
+                    <?php if($_SESSION['user_level']==2){?><li class="nav-item dropdown">
                       <a href="<?php echo base_url ?>admin/?page=orders" class="nav-link nav-order">
                         <i class="nav-icon fas fa-list"></i>
                         <p>
@@ -67,7 +76,7 @@
                       </a>
                     </li>
                     <?php }?>
-                    <?php if($_SESSION['user_role']==2){?><li class="nav-item dropdown">
+                    <?php if($_SESSION['user_level']==2){?><li class="nav-item dropdown">
                       <a href="<?php echo base_url ?>admin/?page=sales" class="nav-link nav-sales">
                         <i class="nav-icon fas fa-file"></i>
                         <p>
@@ -76,7 +85,7 @@
                       </a>
                     </li>
                     <?php }?>
-                    <?php if($_SESSION['user_role']==2){?><li class= "nav-header">Maintenance</li>
+                    <?php if($_SESSION['user_level']==2){?><li class= "nav-header">Maintenance</li>
                     <li class="nav-item dropdown"><a href="<?php echo base_url ?>admin/?page=maintenance/vendor" class="nav-link nav-sales">
                      <i class="nav-icon fas fa-th-list"></i>
                      <p>
@@ -85,7 +94,7 @@
                     </a>
                     </li>
                    <?php }?>
-                   <?php if($_SESSION['user_role']==2){?><li class="nav-item dropdown">
+                   <?php if($_SESSION['user_level']==2){?><li class="nav-item dropdown">
                     <a href="<?php echo base_url ?>admin/?page=system_info" class="nav-link nav-sales">
                      <i class="nav-icon fas fa-cogs"></i>
                     <p>
@@ -124,16 +133,16 @@
         page = page+'_'+s;
 
       if($('.nav-link.nav-'+page).length > 0){
-             $('.nav-link.nav-'+page).addClass('active')
+             $('.nav-link.nav-'+page).addClass('active');
         if($('.nav-link.nav-'+page).hasClass('tree-item') == true){
-            $('.nav-link.nav-'+page).closest('.nav-treeview').siblings('a').addClass('active')
-          $('.nav-link.nav-'+page).closest('.nav-treeview').parent().addClass('menu-open')
+            $('.nav-link.nav-'+page).closest('.nav-treeview').siblings('a').addClass('active');
+          $('.nav-link.nav-'+page).closest('.nav-treeview').parent().addClass('menu-open');
         }
         if($('.nav-link.nav-'+page).hasClass('nav-is-tree') == true){
-          $('.nav-link.nav-'+page).parent().addClass('menu-open')
+          $('.nav-link.nav-'+page).parent().addClass('menu-open');
         }
 
       }
      
-    })
+    });
   </script>

@@ -1,28 +1,28 @@
-<?php 
-$user = $conn->query("SELECT * FROM users where id ='".$_settings->userdata('id')."'");
-foreach($user->fetch_array() as $k =>$v){
+<?php
+$user = $conn->query("SELECT * FROM users WHERE id = '" .$_settings->userdata('id')."'");
+foreach($user->fetch_array() as $k => $v){
 	$meta[$k] = $v;
 }
 ?>
 <?php if($_settings->chk_flashdata('success')): ?>
-    <div class="alert alert-success"><?php echo $_settings->flashdata('success'); ?></div>
-<?php endif; ?>
+	<script>
+		alert_toast("<?php echo $_settings->flashdata('success') ?>",'success')
+		</script>
+	<?php endif; ?>
 
-<?php page_require_level(2); ?>
-<?php if($_settings->chk_flashdata('error')): ?>
 <div class="card card-outline card-primary">
 	<div class="card-body">
 		<div class="container-fluid">
 			<div id="msg"></div>
-			<form action="" id="edit-user">	
-				<input type="hidden" name="id" value="<?php echo $_settings->userdata('id') ?>">
+			<form action="" id="manage-users">	
+				<input type="hidden" name="id" value="<?php echo isset($id) ? $id : '' ?>">
 				<div class="form-group">
-					<label for="name">Full Name</label>
-					<input type="text" name="name" id="name" class="form-control" value="<?php echo isset($meta['name']) ? $meta['name']: '' ?>" required>
-				</div>
+					<label for="name" class="control-label">Name</label>
+					<textarea name ="name"  id="name" cols="30" class="form-control form no-resize"><?php echo isset($name)? $name : ''; ?></textarea>
+                </div>
 				<div class="form-group">
-					<label for="username">Username</label>
-					<input type="text" name="username" id="username" class="form-control" value="<?php echo isset($meta['username']) ? $meta['username']: '' ?>" required  autocomplete="off">
+					<label for="username" class="control-label">Username</label>
+					<textarea name ="username" name="username" id="username" cols="30" class="form-control no-resize"> <?php echo isset($username)? $username : ''; ?></textarea>
 				</div>
 				<div class="form-group">
 					<label for="" class="control-label">Avatar</label>
@@ -40,7 +40,7 @@ foreach($user->fetch_array() as $k =>$v){
 	<div class="card-footer">
 			<div class="col-md-12">
 				<div class="row">
-					<button class="btn btn-sm btn-primary" form="manage-user">Update</button>
+					<button class="btn btn-sm btn-primary" form="manage-users">Update</button>
 				</div>
 			</div>
 		</div>
@@ -68,7 +68,7 @@ foreach($user->fetch_array() as $k =>$v){
 		e.preventDefault();
 		start_loader()
 		$.ajax({
-			url:_base_url_+'classes/account.php?f=save',
+			url:_base_url_+'classes/Master.php?f=save_users',
 			data: new FormData($(this)[0]),
 		    cache: false,
 		    contentType: false,
@@ -85,5 +85,4 @@ foreach($user->fetch_array() as $k =>$v){
 			}
 		})
 	})
-
 </script>

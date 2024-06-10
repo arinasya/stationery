@@ -1,6 +1,6 @@
 <?php
 require_once('../config.php');
-Class Users extends DBConnection {
+Class Account extends DBConnection {
 	private $settings;
 	public function __construct(){
 		global $_settings;
@@ -10,7 +10,7 @@ Class Users extends DBConnection {
 	public function __destruct(){
 		parent::__destruct();
 	}
-	public function save_users(){
+	public function save_account(){
 		extract($_POST);
 		$data = '';
 		foreach($_POST as $k => $v){
@@ -69,7 +69,7 @@ Class Users extends DBConnection {
 			
 		}
 	}
-	public function delete_users(){
+	public function delete_account(){
 		extract($_POST);
 		$qry = $this->conn->query("DELETE FROM users where id = $id");
 		if($qry){
@@ -167,11 +167,11 @@ Class Users extends DBConnection {
 	
 }
 
-$users = new users();
+$users = new account();
 $action = !isset($_GET['f']) ? 'none' : strtolower($_GET['f']);
 switch ($action) {
 	case 'save':
-		echo $users->save_users();
+		echo $users->save_account();
 	break;
 	case 'fsave':
 		echo $users->save_fusers();
@@ -180,7 +180,7 @@ switch ($action) {
 		echo $users->save_susers();
 	break;
 	case 'delete':
-		echo $users->delete_users();
+		echo $users->delete_account();
 	break;
 	default:
 		// echo $sysset->index();

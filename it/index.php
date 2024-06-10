@@ -82,6 +82,8 @@
     </div>
   </div>
       </div>
+      <!--JQuery-->
+      <script src ="../plugins/jquery/jquery.min.js" > </script>
       <!-- /.content-wrapper -->
       <?php require_once('includes/footer.php') ?>
   </body>

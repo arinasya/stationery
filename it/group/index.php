@@ -2,7 +2,6 @@
     <div class="alert alert-success"><?php echo $_settings->flashdata('success'); ?></div>
 <?php endif; ?>
 
-<?php page_require_level(1); ?>
 
 <div class="card card-outline card-primary">
     <div class="card-header">
@@ -18,8 +17,8 @@
                     <colgroup>
                         <col width="5%">
                         <col width="25%">
-                        <col width="25%">
-                        <col width="25%">
+                        <col width="15%">
+                        <col width="10%">
                         <col width="10%">
                     </colgroup>
                     <thead>
@@ -32,15 +31,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
-                        while($row = $result->fetch_assoc()):
-                            ?>
+                    <?php
+                         $qry = $conn->query("SELECT * FROM `user_groups` ORDER BY UNIX_TIMESTAMP(date_created) DESC");
+                         $i = 1;
+                         while($row = $qry->fetch_assoc()):
+                    ?>
+                  
                             <tr>
                                 <td class="text-center"><?php echo $i++; ?></td>
                                 <td><?php echo $row['group_name']?></td>
                                 <td><?php echo $row['group_level']?></td>
                                 <td class="text-center">
-                                    <?php if($row['status']== 1): ?>
+                                    <?php if($row['group_status'] == 1): ?>
                                         <span class="badge badge-success">Active</span>
                                     <?php else: ?>
                                         <span class="badge badge-danger">Inactive</span>
@@ -60,7 +62,7 @@
                                     </div>
                                 </td>
                             </tr>
-                        <?php endwhile; ?>
+                      <?php endwhile; ?>
                     </tbody>
                 </table>
             </div>

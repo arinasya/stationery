@@ -1,10 +1,8 @@
 <?php if($_settings->chk_flashdata('success')): ?>
-    <div class="alert alert-success"><?php echo $_settings->flashdata('success'); ?></div>
-<?php endif; ?>
-
-<?php page_require_level(2); ?>
-<?php if($_settings->chk_flashdata('error')): ?>
-
+<script>
+	alert_toast("<?php echo $_settings->flashdata('success') ?>",'success')
+</script>
+<?php endif;?>
 <style>
 	img#cimg{
 		height: 15vh;
@@ -105,6 +103,27 @@
 	        reader.readAsDataURL(input.files[0]);
 	    }
 	}
+	$('#system-frm').submit(function(e){
+        e.preventDefault();
+        start_loader();
+        if($('.err_msg').length > 0)
+            $('.err_msg').remove();
+        $.ajax({
+            url: _base_url_ + 'classes/SystemSettings.php?f=update_settings',
+            data: new FormData($(this)[0]),
+            cache: false,
+            processData: false,
+            method: 'POST',
+            success: function(resp){
+                if(resp == 1){
+                    location.reload();
+                }else{
+                    $('#msg').html('<div class="alert alert-danger err_msg">An Error occurred</div>');
+                    end_loader();
+                }
+            }
+        });
+    });
 	$(document).ready(function(){
 		 $('.summernote').summernote({
 		        height: 200,
