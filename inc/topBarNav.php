@@ -23,31 +23,32 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                         <li class="nav-item"><a class="nav-link" aria-current="page" href="./">Home</a></li>
-                        <?php 
-                        $vendor_qry = $conn->query("SELECT * FROM vendors where status = 1  limit 3");
-                        $count_vendors =$conn->query("SELECT * FROM vendors where status = 1 ")->num_rows;
-                        while($crow = $vendor_qry->fetch_assoc()):
-                          $item_qry = $conn->query("SELECT * FROM items where status = 1 and id = '{$crow['id']}'");
-                          if($item_qry->num_rows <= 0):
-                        ?>
-                        <li class="nav-item"><a class="nav-link" aria-current="page" href="./?p=items&v=<?php echo md5($crow['id']) ?>"><?php echo $crow['name'] ?></a></li>
-                        
-                        <?php else: ?>
-                        <li class="nav-item dropdown">
-                          <a class="nav-link dropdown-toggle" id="navbarDropdown<?php echo $crow['id'] ?>" href="#" role="button" data-toggle="dropdown" aria-expanded="false"><?php echo $crow['name'] ?></a></a>
-                            <ul class="dropdown-menu  p-0" aria-labelledby="navbarDropdown<?php echo $crow['id'] ?>">
-                              <?php while($srow = $item_qry->fetch_assoc()): ?>
-                                <li><a class="dropdown-item border-bottom" href="./?p=items&v=<?php echo md5($crow['id']) ?>&i=<?php echo md5($srow['id']) ?>"><?php echo $srow['name'] ?></a></li>
-                            <?php endwhile; ?>
-                            </ul>
-                        </li>
-                        <?php endif; ?>
-                        <?php endwhile; ?>
-                        <?php if($count_vendors > 3): ?>
-                        <li class="nav-item"><a class="nav-link" href="./?p=view_vendor">All Vendors</a></li>
-                        <?php endif; ?>
-                        
-                    </ul>
+                        <?php
+                  // Assuming $conn is your database connection
+                  $vendors_query = $conn->query("SELECT * FROM `vendors` ORDER BY name ASC");
+                  while($vendor = $vendors_query->fetch_assoc()):
+                      $vendor_id = $vendor['id'];
+                  ?>
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" id="navbarDropdown<?php echo $vendor_id ?>" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                          <?php echo $vendor['name'] ?>
+                      </a>
+                      <ul class="dropdown-menu p-0" aria-labelledby="navbarDropdown<?php echo $vendor_id ?>">
+                          <?php
+                          // Fetch items specific to the current vendor
+                          $items_query = $conn->query("SELECT * FROM `items` WHERE vendor_id = $vendor_id ORDER BY name ASC");
+                          while($item = $items_query->fetch_assoc()):
+                          ?>
+                          <li>
+                              <a class="dropdown-item border-bottom" href="./?p=items&v=<?php echo md5($vendor_id) ?>&i=<?php echo md5($item['id']) ?>">
+                                  <?php echo $item['name'] ?>
+                              </a>
+                          </li>
+                          <?php endwhile; ?>
+                      </ul>
+                  </li>
+                  <?php endwhile; ?>
+
                     <div class="d-flex align-items-center">
                       <?php if(!isset($_SESSION['userdata']['id'])): ?>
                         <button class="btn btn-outline-dark ml-2" id="login-btn" type="button">Login</button>
