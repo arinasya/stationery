@@ -1,11 +1,9 @@
-<script src="https://www.paypalobjects.com/api/checkout.js"></script>
-<?php 
-$total = 0;
-    $qry = $conn->query("SELECT c.*,i.name,i.price,i.id as iid from `cart` c  inner join items i on i.id = i.item_id where c.user_id = ".$_settings->userdata('id'));
-    while($row= $qry->fetch_assoc()):
-        $total += $row['price'] * $row['quantity'];
-    endwhile;
-?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Add necessary meta tags and CSS links here -->
+</head>
+<body>
 <section class="py-5">
     <div class="container">
         <div class="card rounded-0">
@@ -13,25 +11,48 @@ $total = 0;
             <h3 class="text-center"><b>Checkout</b></h3>
             <hr class="border-dark">
             <form action="" id="place_order">
-                <input type="hidden" name="amount" value="<?php echo $total ?>">
-                <input type="hidden" name="confirm" value="confirm">
-                <input type="hidden" name="paid" value="0">
+                <!-- Ensure that $formatted_total is defined -->
+                <input type="hidden" name="amount" value="<?php echo isset($formatted_total) ? $formatted_total : '0.00'; ?>">
+                <input type="hidden" name="request" value="confirm">
+                <input type="hidden" name="confirm" value="0">
                 <div class="row row-col-1 justify-content-center">
                     <div class="col-6">
-                    
                         <div class="form-group col address-holder">
                             <label for="" class="control-label">Department</label>
                             <textarea id="" cols="30" rows="3" name="department" class="form-control" style="resize:none"><?php echo $_settings->userdata('department') ?></textarea>
                         </div>
                         <div class="col">
-                            <span><h4><b>Total:RM</b> <?php echo number_format($total) ?></h4></span>
+                            <?php 
+                            // Initialize total price
+                            $total_price = 0;
+                            // Initialize maximum decimal places
+                            $max_decimal_places = 0;
+                            // Fetch items from the database
+                            $qry = $conn->query("SELECT c.*, i.name, i.price, i.id as item_id FROM `cart` c INNER JOIN `items` i ON i.id = c.item_id WHERE c.user_id = ".$_settings->userdata('id'));
+                            if(!$qry) {
+                                die("Query failed: " . $conn->error);
+                            }
+                            // Loop through items to calculate total price
+                            while($row = $qry->fetch_assoc()):
+                                $price = $row['price'];
+                                $quantity = $row['quantity'];
+                                // Calculate total price for the current item and accumulate
+                                $total_item_price = $price * $quantity;
+                                $total_price += $total_item_price;
+                                // Calculate decimal places for the current item
+                                $decimal_places = strlen(substr(strrchr($total_item_price, "."), 1));
+                                // Update maximum decimal places
+                                $max_decimal_places = max($max_decimal_places, $decimal_places);
+                            endwhile;
+                            // Display the total price for all items with specific decimal places
+                            echo '<span><h4><b>Total: RM</b> ' . number_format($total_price, $max_decimal_places) . '</h4></span>';
+                            ?>
                         </div>
                         <hr>
                         <div class="col my-3">
-                        <h4 class="text-muted">Confirm</h4>
+                            <h4 class="text-muted"></h4>
                             <div class="d-flex w-100 justify-content-between">
                                 <button class="btn btn-flat btn-dark">Confirm</button>
-                               
                             </div>
                         </div>
                     </div>
@@ -41,14 +62,7 @@ $total = 0;
     </div>
 </section>
 <script>
-
-function payment_online(){
-    $('[name="payment_method"]').val("Online Payment")
-    $('[name="paid"]').val(1)
-    $('#place_order').submit()
-}
 $(function(){
-   
     $('#place_order').submit(function(e){
         e.preventDefault()
         start_loader();
@@ -78,3 +92,6 @@ $(function(){
     })
 })
 </script>
+
+</body>
+</html>

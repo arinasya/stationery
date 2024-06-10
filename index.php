@@ -15,6 +15,7 @@
         include $page.'.php';
 
     }
+    
 ?>
 <?php require_once('inc/footer.php') ?>
 <div class="modal fade" id="confirm_modal" role='dialog'>
