@@ -1,37 +1,12 @@
 <?php
-// Display errors for debugging purposes
+/* Display errors for debugging purposes
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL);*/
 ?>
 
 <h1>Welcome to <?php echo $_settings->info('name'); ?></h1>
 <hr>
-<div class="row">
-    <div class="col-12 col-sm-6 col-md-3">
-        <div class="info-box-content">
-            <span class="info-box-number">
-                <?php 
-                // Item query
-                $item_query = $conn->query("SELECT COUNT(*) AS total FROM items WHERE item_id= $id");
-                if ($item_query) {
-                    $item = $item_query->fetch_assoc()['total'];
-                    // Sales query
-                    $sales_query = $conn->query("SELECT sum(quantity) as total FROM order_list WHERE order_id IN (SELECT order_id FROM sales)");
-                    if ($sales_query) {
-                        $sales = $sales_query->fetch_assoc()['total'];
-                        echo number_format($item - $sales);
-                    } else {
-                        echo "Error in sales query: " . $conn->error;
-                    }
-                } else {
-                    echo "Error in item query: " . $conn->error;
-                }
-                ?>
-            </span>
-        </div>
-    </div>
-    
     <div class="col-12 col-sm-6 col-md-3">
         <div class="info-box mb-3">
             <span class="info-box-icon bg-info elevation-1"><i class="fas fa-th-list"></i></span>
@@ -58,13 +33,20 @@ error_reporting(E_ALL);
             <div class="info-box-content">
                 <span class="info-box-text">Total Sales</span>
                 <span class="info-box-number">
-                    <?php 
-                    $sales_query = $conn->query("SELECT sum(total_amount) as total FROM `orders` WHERE status = '0'");
-                    if ($sales_query) {
-                        $sales = $sales_query->fetch_assoc()['total'];
-                        echo number_format($sales);
+                <?php 
+                    $qry = $conn->query("SELECT SUM(total_amount) as total_amount FROM orders");
+
+                    if ($qry) {
+                        $row = $qry->fetch_assoc();
+                        $total_amount = $row['total_amount'];
+
+                        // Determine if 3 decimal places are needed
+                        $decimal_places = (floor($total_amount * 1000) == $total_amount * 1000) ? 3 : 2;
+                        $formatted_total_amount = number_format($total_amount, $decimal_places);
+
+                        echo " RM" . $formatted_total_amount;
                     } else {
-                        echo "Error in sales query: " . $conn->error;
+                        echo "Error: " . $conn->error;
                     }
                     ?>
                 </span>

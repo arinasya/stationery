@@ -39,15 +39,23 @@
       <div class="info-box-content">
         <span class="info-box-text">Total Sales</span>
         <span class="info-box-number">
-          <?php 
-            $sales_query = $conn->query("SELECT sum(total_amount) as total FROM orders where status = '0'");
-            if($sales_query) {
-              $sales = $sales_query->fetch_assoc()['total'];
-              echo number_format($sales);
-            } else {
+        <?php 
+          $qry = $conn->query("SELECT SUM(total_amount) as total_amount FROM orders");
+
+          if ($qry) {
+              $row = $qry->fetch_assoc();
+              $total_amount = $row['total_amount'];
+
+              // Determine if 3 decimal places are needed
+              $decimal_places = (floor($total_amount * 1000) == $total_amount * 1000) ? 3 : 2;
+              $formatted_total_amount = number_format($total_amount, $decimal_places);
+
+              echo " RM" . $formatted_total_amount;
+          } else {
               echo "Error: " . $conn->error;
-            }
-          ?>
+          }
+         ?>
+
         </span>
       </div>
     </div>

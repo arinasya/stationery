@@ -53,13 +53,13 @@ $max_decimal_places = 2; // Initialize max decimal places
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
+                     <?php 
                     $qry = $conn->query("SELECT DATE(o.order_date) as date, u.department, SUM(ol.quantity * ol.price) as total_amount 
                                          FROM order_list ol 
                                          INNER JOIN orders o ON o.id = ol.order_id 
                                          INNER JOIN users u ON u.id = o.user_id  
                                          WHERE DATE(o.order_date) BETWEEN '{$date_start}' AND '{$date_end}'
-                                         GROUP BY DATE(o.order_date), u.department 
+                                        GROUP BY DATE(o.order_date), u.department 
                                          ORDER BY DATE(o.order_date) DESC, u.department ASC");
                     if ($qry) {
                         while ($row = $qry->fetch_assoc()) {
