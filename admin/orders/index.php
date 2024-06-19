@@ -23,7 +23,7 @@
         <div id="printable">
             <div class="container-fluid">
                 <div class="container-fluid">
-                    <table class="table table-bordered table-stripped">
+                    <table class="table table-bordered ">
                         <colgroup>
                             <col width="5%">
                             <col width="15%">
