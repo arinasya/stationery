@@ -77,6 +77,16 @@ $user_level = isset($_SESSION['user_level']) ? $_SESSION['user_level'] : 0;
                     </li>
                     <?php }?>
                     <?php if($_SESSION['user_level']==2){?><li class="nav-item dropdown">
+                      <a href="<?php echo base_url ?>admin/?page=summary" class="nav-link nav-order">
+                    <i class="nav-icon fas fa-list"></i>
+                    <p>
+                      Summary Order
+                    </p>
+                  </a>
+                    </li>
+                    <?php }?>
+                    
+                    <?php if($_SESSION['user_level']==2){?><li class="nav-item dropdown">
                       <a href="<?php echo base_url ?>admin/?page=sales" class="nav-link nav-sales">
                         <i class="nav-icon fas fa-file"></i>
                         <p>

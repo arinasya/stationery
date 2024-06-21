@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 11, 2024 at 04:46 AM
+-- Generation Time: Jun 21, 2024 at 10:00 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -32,7 +32,14 @@ CREATE TABLE IF NOT EXISTS `cart` (
   `item_id` int(11) NOT NULL,
   `quantity` int(10) NOT NULL,
   `price` double NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`id`, `user_id`, `item_id`, `quantity`, `price`) VALUES
+(1, 8, 89, 1, 14.85);
 
 -- --------------------------------------------------------
 
@@ -49,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `items` (
   `status` tinyint(1) NOT NULL,
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `charge_code` varchar(200) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=156 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=158 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `items`
@@ -74,7 +81,6 @@ INSERT INTO `items` (`id`, `name`, `price`, `vendor_id`, `description`, `status`
 (18, 'SUPER PP FOLDER CBE 805A', 2.8, 3, '&lt;p&gt;CBE 805A&lt;/p&gt;', 1, '2024-05-13 09:47:57', '52525103'),
 (19, 'BATTERY ENERGIZER 9V', 14.5, 3, '&lt;p&gt;9V&lt;/p&gt;', 1, '2024-05-13 09:50:52', '52525044'),
 (20, 'BATTERY ENEGIZER D', 5.9, 3, '&lt;p&gt;Energizer D&lt;/p&gt;', 1, '2024-05-13 09:53:01', '52525051'),
-(21, 'BATTERY LITHIUM 3V -CR123A-', 5.8, 3, '&lt;p&gt;Battery lithium 3V -CR123A-&lt;/p&gt;', 1, '2024-05-13 09:59:10', '52525090'),
 (22, 'BATTERY ENEGIZER CR2032-3V', 5, 3, '&lt;p&gt;CR2032-3V&lt;/p&gt;', 1, '2024-05-13 10:09:41', '52525127'),
 (23, 'BATTERY C', 4.8, 3, '&lt;p&gt;Battery C&lt;/p&gt;', 1, '2024-05-13 10:10:25', '52525022'),
 (24, 'DOCUMENT PROTECTOR', 2, 3, '&lt;p&gt;Document Protector&lt;/p&gt;', 1, '2024-05-13 10:11:30', '52525008'),
@@ -93,7 +99,7 @@ INSERT INTO `items` (`id`, `name`, `price`, `vendor_id`, `description`, `status`
 (37, 'ENVELOPE 10X12 XRAY  (1 BX)', 150, 3, '&lt;p&gt;ENVELOPE 10X12 XRAY&amp;nbsp; (1 BX)&lt;br&gt;&lt;/p&gt;', 1, '2024-05-13 10:26:17', '52520117'),
 (38, 'GLOSSY PAPER SZ A4', 10, 3, '&lt;p&gt;GLOSSY PAPER SZ A4&lt;br&gt;&lt;/p&gt;', 1, '2024-05-13 10:27:10', '52525074'),
 (39, 'FILE FOLDER PATIENT - WELLNESS', 1.8, 3, '&lt;p&gt;Wellness&lt;/p&gt;', 1, '2024-05-13 10:28:23', '52520166'),
-(40, 'APPOINTMENT CARD           ', 0.2, 3, '', 1, '2024-05-13 10:30:10', '52520006'),
+(40, 'APPOINTMENT CARD           ', 0.2, 3, '&lt;p&gt;appointment card&lt;/p&gt;', 1, '2024-05-13 10:30:10', '52520006'),
 (41, 'CHARGES  CHECK LIST ', 3, 3, '&lt;p&gt;CHARGES&amp;nbsp; CHECK LIST&amp;nbsp;&lt;br&gt;&lt;/p&gt;', 1, '2024-05-13 10:30:55', '52520007'),
 (42, 'CONSENT FOR H.I.V TEST', 3, 3, '&lt;p&gt;CONSENT FOR H.I.V TEST&lt;br&gt;&lt;/p&gt;', 1, '2024-05-13 10:32:09', '52520100'),
 (43, 'CONSENT FOR RELEASE OF MEDICAL INFORMATION (MEDICAL REPORT) ', 4.5, 3, '&lt;p&gt;Medical Report&lt;/p&gt;', 1, '2024-05-13 10:33:13', '52520008'),
@@ -106,8 +112,6 @@ INSERT INTO `items` (`id`, `name`, `price`, `vendor_id`, `description`, `status`
 (50, 'INPATIENT DISCHARGE FORM', 3, 3, '&lt;p&gt;Discharge Form&lt;/p&gt;', 1, '2024-05-13 10:41:56', '52520013'),
 (51, 'INPATIENT ROUTINE MEDICATION FORM', 7.5, 3, '&lt;p&gt;Routine Medication Form&lt;/p&gt;', 1, '2024-05-13 10:43:03', '52520045'),
 (52, 'LETTER OF GUARANTEE & INDEMNITY', 12, 3, '&lt;p&gt;Letter Of Guarantee &amp;amp; Indemnity&lt;/p&gt;', 1, '2024-05-13 10:44:47', '52520014'),
-(53, 'MEDICAL CERTIFICATE (MC)', 7.5, 3, '&lt;p&gt;MC&lt;/p&gt;', 1, '2024-05-13 10:45:52', '52520015'),
-(54, 'TIME SLIP', 7.5, 3, '&lt;p&gt;Time Slip&lt;/p&gt;', 1, '2024-05-13 10:47:57', '52525076'),
 (55, 'MORTUARY TAG - RED', 0.6, 3, '&lt;p&gt;Red&lt;/p&gt;', 1, '2024-05-13 10:49:27', '52520120'),
 (56, 'MORTUARY TAG - WHITE', 0.6, 3, '&lt;p&gt;White&lt;/p&gt;', 1, '2024-05-13 10:50:17', '52520119'),
 (57, 'OPERATION RECORD', 4.5, 3, '&lt;p&gt;Operation Record&lt;/p&gt;', 1, '2024-05-13 10:55:41', '52520046'),
@@ -115,7 +119,7 @@ INSERT INTO `items` (`id`, `name`, `price`, `vendor_id`, `description`, `status`
 (59, 'PRESCRIPTION FORM', 5.5, 3, '&lt;p&gt;PRESCRIPTION FORM&lt;br&gt;&lt;/p&gt;', 1, '2024-05-13 10:57:52', '52520048'),
 (60, 'PROFESSIONAL FEES CHARGE FORM', 5.5, 3, '&lt;p&gt;Professional Fees Charge Form&lt;/p&gt;', 1, '2024-05-13 10:59:15', '52520017'),
 (61, 'REGISTRATION BOOK A&E', 150, 3, '&lt;p&gt;Registration Book A&amp;amp;E&lt;/p&gt;', 1, '2024-05-13 11:00:31', '52520049'),
-(62, 'PSYCHOTROPIC BOOK OT GREEN', 150, 3, '', 1, '2024-05-13 11:01:23', '52520150'),
+(62, 'PSYCHOTROPIC BOOK OT GREEN', 150, 3, '&lt;p&gt;Psychotropic book OT Green&lt;/p&gt;', 1, '2024-05-13 11:01:23', '52520150'),
 (63, 'PSYCHOTROPIC BOOK INJECTION RED', 150, 3, '&lt;p&gt;RED&lt;/p&gt;', 1, '2024-05-13 11:02:24', '52520121'),
 (64, 'PSYCHOTROPIC BOOK TABLET BLUE', 150, 3, '&lt;p&gt;Tablet Blue&lt;/p&gt;', 1, '2024-05-13 11:03:29', '52520106'),
 (65, 'REGISTRATION FORM ', 3, 3, '&lt;p&gt;Registration Form&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;', 1, '2024-05-13 11:04:31', '52520050'),
@@ -152,7 +156,6 @@ INSERT INTO `items` (`id`, `name`, `price`, `vendor_id`, `description`, `status`
 (96, 'ENVELOPE WITH WINDOW 4X9  (500\\''S / BX)', 0.12, 8, '&lt;p&gt;Envelope with window 4X9 (500\\''S / BX)&lt;/p&gt;', 1, '2024-05-13 12:02:23', '52520003'),
 (97, 'ENVELOPE SIZE A4 (250\\''S / BX)', 0.24, 8, '&lt;p&gt;Envelope size A4 (250\\''S / BX)&lt;/p&gt;', 1, '2024-05-13 12:03:29', '52520004'),
 (98, 'ENVELOPE SIZE A3 (250\\''S / BX)', 0.3, 8, '&lt;p&gt;Envelope size A3 (250\\''S / BX)&lt;/p&gt;', 1, '2024-05-13 12:04:36', '52520075'),
-(99, 'ENVELOPE SIZE A5 (500\\''S / BX)', 0.15, 8, '&lt;p&gt;Envelope size A5 (500\\''s / BX)&lt;/p&gt;', 1, '2024-05-13 12:05:45', '52520122'),
 (100, 'LETTER HEAD PER REAM (500\\''S) ', 0.08, 8, '&lt;p&gt;Letter Head Per Ream (500\\''s)&lt;/p&gt;', 1, '2024-05-13 12:06:42', '52520005'),
 (101, 'INK SATO (T102F)        ', 10.3, 8, '&lt;p&gt;Ink sato (T102F)&lt;/p&gt;', 1, '2024-05-13 12:07:49', '52525016'),
 (102, 'BATTERY ENEGIZER AA', 2.6, 8, '&lt;p&gt;Battery energizer AA&lt;/p&gt;', 1, '2024-05-13 12:09:00', '52525018'),
@@ -165,8 +168,6 @@ INSERT INTO `items` (`id`, `name`, `price`, `vendor_id`, `description`, `status`
 (109, 'BLUE FOLDER (CASE NOTE) CONFIDENTIAL FILE ', 0.85, 8, '&lt;p&gt;Blue folder (case note)&amp;nbsp;&lt;/p&gt;', 1, '2024-05-13 12:18:16', '52520145'),
 (110, 'ANAESTHESIA DISCLOSURE  AND CONSENT', 4.5, 8, '&lt;p&gt;Anaesthesia disclosure and consent&lt;/p&gt;', 1, '2024-05-13 12:20:03', '52520053'),
 (111, 'ADMISSION FORM', 12, 8, '&lt;p&gt;Admission form&lt;/p&gt;', 1, '2024-05-13 12:20:56', '52520055'),
-(112, 'PATIENT OUTPATIENT INFORMATION', 6.2, 8, '&lt;p&gt;Patient outpatient information&lt;/p&gt;', 1, '2024-05-13 12:25:00', '52520077'),
-(113, 'PATIENT INPATIENT INFORMATION (EXTRA 2)', 6.2, 8, '&lt;p&gt;Patient inpatient information (extra 2)&lt;/p&gt;', 1, '2024-05-13 12:25:58', '52520056'),
 (114, 'INPATIENT/RELATIVE ORIENTATION CHECK LIST', 8.8, 8, '&lt;p&gt;Inpatient/Relative orientation check list&lt;/p&gt;', 1, '2024-05-13 12:27:27', '52520057'),
 (115, 'OPERATION THEATRE TIME', 4.5, 8, '&lt;p&gt;Operation theatre time&lt;/p&gt;', 1, '2024-05-13 12:28:21', '52520058'),
 (116, 'NURSING ASSESSMENT PLANNING', 9, 8, '&lt;p&gt;Nursing assessment planning&lt;/p&gt;', 1, '2024-05-13 12:29:07', '52520059'),
@@ -184,8 +185,6 @@ INSERT INTO `items` (`id`, `name`, `price`, `vendor_id`, `description`, `status`
 (128, 'NURSING PROCEDURE CHARGE FORM ', 4.5, 8, '&lt;p&gt;Nursing procedure charge form&lt;/p&gt;', 1, '2024-05-13 12:43:55', '52520066'),
 (129, 'NURSING GENERAL EQUIPMENT CHARGES', 3, 8, '&lt;p&gt;Nursing general equipment charges&lt;/p&gt;', 1, '2024-05-13 12:44:56', '52520067'),
 (130, 'ASSIST DR PROSEDURE CHARGES FORM', 4.5, 8, '&lt;p&gt;Assist DR procedure charges form&lt;/p&gt;', 1, '2024-05-13 12:46:12', '52520068'),
-(131, 'STAFF MEDICAL REQUEST (YELLOW FORM)', 6.2, 8, '&lt;p&gt;Staff medical request (yellow form)&lt;/p&gt;', 1, '2024-05-13 12:47:53', '52520110'),
-(132, 'STAFF/DEPENDANT CRITICAL ILLNESS & SURGERY REQUEST', 4.8, 8, '&lt;p&gt;Staff / dependant critical illness &amp;amp; surgery request&lt;/p&gt;', 1, '2024-05-13 12:50:38', '52520111'),
 (133, 'ICU CHARGES FORM', 3, 8, '&lt;p&gt;ICU charges form&lt;/p&gt;', 1, '2024-05-13 12:51:41', '52520123'),
 (134, 'INFORMED CONSENT', 8.8, 8, '&lt;p&gt;Informed consent&lt;/p&gt;', 1, '2024-05-13 12:52:26', '52520074'),
 (135, 'ADULT OBSERVATION CHART (EWS)', 13.8, 8, '&lt;p&gt;Adult observation chart (EWS)&lt;/p&gt;', 1, '2024-05-13 12:53:39', '52520092'),
@@ -208,7 +207,8 @@ INSERT INTO `items` (`id`, `name`, `price`, `vendor_id`, `description`, `status`
 (152, 'ARTLINE MARKER PEN 70       BLACK', 2.9, 3, '&lt;p&gt;ARTLINE MARKER PEN 70&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;BLACK&lt;br&gt;&lt;/p&gt;', 1, '2024-06-10 10:39:44', '52525043'),
 (153, 'ARTLINE MARKER PEN 70       BLUE', 2.9, 3, '&lt;p&gt;ARTLINE MARKER PEN 70&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;BLUE&lt;br&gt;&lt;/p&gt;', 1, '2024-06-10 10:41:46', '52520089'),
 (154, 'ARTLINE MARKER PEN 70       RED', 2.9, 3, '&lt;p&gt;ARTLINE MARKER PEN 70&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;RED&lt;br&gt;&lt;/p&gt;', 1, '2024-06-10 10:43:28', '52520090'),
-(155, 'Test', 12, 6, '&lt;p&gt;Test&lt;/p&gt;', 1, '2024-06-11 10:41:29', '145');
+(155, 'Test', 12, 6, '&lt;p&gt;Test&lt;/p&gt;', 1, '2024-06-11 10:41:29', '0145'),
+(156, 'QMS ROLL', 4.5, 3, '&lt;p&gt;qms roll&amp;nbsp;&lt;/p&gt;', 1, '2024-06-12 10:36:38', '52525032');
 
 -- --------------------------------------------------------
 
@@ -225,7 +225,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `order_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `confirm` tinyint(1) NOT NULL,
   `request` varchar(250) CHARACTER SET utf8mb4 NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `orders`
@@ -267,7 +267,10 @@ INSERT INTO `orders` (`id`, `department`, `total_amount`, `status`, `user_id`, `
 (39, '', 0, 0, 7, '2024-05-31 10:47:49', 0, 'confirm'),
 (40, '', 11.8, 0, 7, '2024-05-31 10:58:57', 0, 'confirm'),
 (41, 'purchasing', 1235.1, 1, 8, '2024-06-01 08:50:16', 1, 'confirm'),
-(42, 'Purchasing', 0.032, 0, 8, '2024-06-04 12:43:50', 0, 'confirm');
+(42, 'Purchasing', 0.032, 0, 8, '2024-06-04 12:43:50', 0, 'confirm'),
+(43, 'IT', 80, 0, 7, '2024-06-19 12:04:38', 0, 'confirm'),
+(45, 'IT', 5.2, 0, 9, '2024-06-21 10:54:37', 0, 'confirm'),
+(46, '', 23.12, 0, 9, '2024-06-21 11:14:15', 0, 'confirm');
 
 -- --------------------------------------------------------
 
@@ -281,39 +284,44 @@ CREATE TABLE IF NOT EXISTS `order_list` (
   `item_id` int(11) NOT NULL,
   `quantity` int(30) NOT NULL,
   `price` double NOT NULL,
-  `total` double NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
+  `total` double NOT NULL,
+  `vendor_id` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `order_list`
 --
 
-INSERT INTO `order_list` (`id`, `order_id`, `item_id`, `quantity`, `price`, `total`) VALUES
-(1, 7, 3, 1, 9.9, 9.9),
-(2, 7, 148, 1, 0.032, 0.032),
-(3, 9, 2, 1, 123, 123),
-(4, 17, 2, 1, 123, 123),
-(5, 18, 2, 1, 123, 123),
-(6, 19, 2, 1, 123, 123),
-(7, 21, 2, 1, 123, 123),
-(14, 27, 80, 1, 3, 3),
-(15, 27, 100, 1, 0.08, 0.08),
-(16, 28, 141, 1, 0.85, 0.85),
-(17, 29, 73, 1, 7, 7),
-(18, 30, 2, 1, 123, 123),
-(19, 31, 23, 1, 4.8, 4.8),
-(20, 32, 30, 1, 0.08, 0.08),
-(21, 33, 103, 1, 2.6, 2.6),
-(22, 34, 98, 1, 0.3, 0.3),
-(23, 35, 109, 1, 0.85, 0.85),
-(24, 36, 111, 1, 12, 12),
-(31, 39, 2, 1, 123, 123),
-(32, 39, 120, 1, 3, 3),
-(33, 39, 123, 1, 4.8, 4.8),
-(34, 40, 136, 1, 11.8, 11.8),
-(35, 41, 5, 1, 7.5, 7.5),
-(36, 41, 3, 124, 9.9, 1227.6000000000001),
-(37, 42, 147, 1, 0.032, 0.032);
+INSERT INTO `order_list` (`id`, `order_id`, `item_id`, `quantity`, `price`, `total`, `vendor_id`) VALUES
+(1, 7, 3, 1, 9.9, 9.9, 0),
+(2, 7, 148, 1, 0.032, 0.032, 0),
+(3, 9, 2, 1, 123, 123, 0),
+(4, 17, 2, 1, 123, 123, 0),
+(5, 18, 2, 1, 123, 123, 0),
+(6, 19, 2, 1, 123, 123, 0),
+(7, 21, 2, 1, 123, 123, 0),
+(14, 27, 80, 1, 3, 3, 0),
+(15, 27, 100, 1, 0.08, 0.08, 0),
+(16, 28, 141, 1, 0.85, 0.85, 0),
+(17, 29, 73, 1, 7, 7, 0),
+(18, 30, 2, 1, 123, 123, 0),
+(19, 31, 23, 1, 4.8, 4.8, 0),
+(20, 32, 30, 1, 0.08, 0.08, 0),
+(21, 33, 103, 1, 2.6, 2.6, 0),
+(22, 34, 98, 1, 0.3, 0.3, 0),
+(23, 35, 109, 1, 0.85, 0.85, 0),
+(24, 36, 111, 1, 12, 12, 0),
+(31, 39, 2, 1, 123, 123, 0),
+(32, 39, 120, 1, 3, 3, 0),
+(33, 39, 123, 1, 4.8, 4.8, 0),
+(34, 40, 136, 1, 11.8, 11.8, 0),
+(35, 41, 5, 1, 7.5, 7.5, 0),
+(36, 41, 3, 124, 9.9, 1227.6000000000001, 0),
+(37, 42, 147, 1, 0.032, 0.032, 0),
+(38, 43, 143, 1, 80, 80, 0),
+(40, 45, 102, 2, 2.6, 5.2, 0),
+(41, 46, 95, 1, 0.12, 0.12, 0),
+(42, 46, 91, 1, 23, 23, 0);
 
 -- --------------------------------------------------------
 
@@ -326,7 +334,7 @@ CREATE TABLE IF NOT EXISTS `sales` (
   `total_amount` float NOT NULL,
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `order_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sales`
@@ -346,7 +354,23 @@ INSERT INTO `sales` (`id`, `total_amount`, `date_created`, `order_id`) VALUES
 (11, 130.8, '2024-05-31 10:47:49', 39),
 (12, 11.8, '2024-05-31 10:58:57', 40),
 (13, 1235.1, '2024-06-01 08:50:16', 41),
-(14, 0.032, '2024-06-04 12:43:50', 42);
+(14, 0.032, '2024-06-04 12:43:50', 42),
+(15, 80, '2024-06-19 12:04:38', 43),
+(17, 5.2, '2024-06-21 10:54:37', 45),
+(18, 23.12, '2024-06-21 11:14:15', 46);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `summary`
+--
+
+CREATE TABLE IF NOT EXISTS `summary` (
+`id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `total_quantity` int(11) NOT NULL,
+  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -386,7 +410,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `status` int(1) NOT NULL,
   `last_login` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `department` text CHARACTER SET utf8mb4 NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
@@ -433,7 +457,7 @@ CREATE TABLE IF NOT EXISTS `vendors` (
   `name` varchar(260) NOT NULL,
   `status` tinyint(1) NOT NULL,
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `vendors`
@@ -445,7 +469,8 @@ INSERT INTO `vendors` (`id`, `name`, `status`, `date_created`) VALUES
 (5, 'PHARMASERV', 1, '2024-05-10 16:39:41'),
 (6, 'CG RIBAND', 1, '2024-05-10 16:39:55'),
 (7, 'DANAU RESOURCES', 1, '2024-05-10 16:40:10'),
-(8, 'C&B', 1, '2024-05-10 16:40:35');
+(8, 'C&B', 1, '2024-05-10 16:40:35'),
+(9, '', 0, '2024-06-21 10:46:43');
 
 --
 -- Indexes for dumped tables
@@ -482,6 +507,12 @@ ALTER TABLE `sales`
  ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `summary`
+--
+ALTER TABLE `summary`
+ ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `system_info`
 --
 ALTER TABLE `system_info`
@@ -513,27 +544,32 @@ ALTER TABLE `vendors`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=156;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=158;
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=43;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=47;
 --
 -- AUTO_INCREMENT for table `order_list`
 --
 ALTER TABLE `order_list`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=38;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=43;
 --
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=19;
+--
+-- AUTO_INCREMENT for table `summary`
+--
+ALTER TABLE `summary`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `system_info`
 --
@@ -543,7 +579,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `user_groups`
 --
@@ -553,7 +589,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 -- AUTO_INCREMENT for table `vendors`
 --
 ALTER TABLE `vendors`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

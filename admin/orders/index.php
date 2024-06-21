@@ -30,7 +30,6 @@
                             <col width="25%">
                             <col width="20%">
                             <col width="10%">
-                            <col width="10%">
                             <col width="15%">
                         </colgroup>
                         <thead>
@@ -39,7 +38,6 @@
                                 <th>Date Order</th>
                                 <th>Department</th>
                                 <th>Total Amount</th>
-                                <th>Confirm</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -79,13 +77,6 @@
                                 <td><?php echo $row['department'] ?></td>
                                 <td class="text-right"><?php echo number_format($total_price, $max_decimal_places); ?></td>
                                 <td class="text-center">
-                                    <?php if($row['confirm'] == 0): ?>
-                                        <span class="badge badge-light">No</span>
-                                    <?php else: ?>
-                                        <span class="badge badge-success">Yes</span>
-                                    <?php endif; ?>
-                                </td>
-                                <td class="text-center">
                                     <?php if($row['status'] == 0): ?>
                                         <span class="badge badge-light">Pending</span>
                                     <?php elseif($row['status'] == 1): ?>
@@ -101,9 +92,9 @@
                                     </button>
                                     <div class="dropdown-menu" role="menu">
                                         <a class="dropdown-item" href="?page=orders/view_order&id=<?php echo $row['id'] ?>">View Order</a>
-                                        <?php if($row['confirm'] == 0 && $row['status'] != 4): ?>
+                                        <?php /*if( $row['status'] != 4): ?>
                                             <a class="dropdown-item confirm" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>">Confirm</a>
-                                        <?php endif; ?>
+                                        <?php endif */; ?>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item delete_data" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>"><span class="fa fa-trash text-danger"></span> Delete</a>
                                     </div>
@@ -123,9 +114,9 @@
         $('.delete_data').click(function(){
             _conf("Are you sure to delete this order permanently?","delete_order",[$(this).attr('data-id')])
         })
-        $('.confirm').click(function(){
+        /*$('.confirm').click(function(){
             _conf("Are you sure to mark this order as confirm?","confirm",[$(this).attr('data-id')])
-        })
+        })*/
         $('.table').dataTable();
         $('#printBTN').click(function(){
             var rep = $('#printable').clone();
@@ -142,7 +133,7 @@
                 },500)
         })
     })
-    function confirm($id) {
+    /*function confirm($id) {
     start_loader();
     $.ajax({
         url: _base_url_ + "classes/Master.php?f=confirm",
@@ -163,7 +154,7 @@
             }
         }
     });
-}
+}*/
 
     function delete_order($id){
         start_loader();

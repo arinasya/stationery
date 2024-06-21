@@ -91,9 +91,9 @@ if ($order->num_rows > 0) {
             </table>
         </div>
         <div class="row">
-            <div class="col-6">
+            <!--<div class="col-6">
                 <p>Confirm order: <?php echo $confirm; ?></p>
-            </div>
+            </div>-->
             <div class="col-6 row row-cols-2">
                 <div class="col-3">Order Status:</div>
                 <div class="col-9">
