@@ -57,34 +57,44 @@ $date_end = isset($_GET['date_end']) ? $_GET['date_end'] : date("Y-m-d");
                 </thead>
                 <tbody>
                     <?php 
-                    $qry = $conn->query("SELECT i.charge_code AS charge_code, v.name AS vendor_name, i.name AS item_name, ol.price AS price, SUM(ol.quantity) AS total_quantity 
-                                         FROM order_list ol
-                                         INNER JOIN orders o ON o.id = ol.order_id
-                                         INNER JOIN vendors v ON v.id = ol.vendor_id
-                                         INNER JOIN items i ON i.id = ol.item_id
-                                         WHERE DATE(o.order_date) BETWEEN '{$date_start}' AND '{$date_end}'
-                                         GROUP BY i.charge_code, v.name, i.name, ol.price
-                                         ORDER BY DATE(o.order_date) DESC, v.name ASC, i.name ASC, i.charge_code ASC");
+                    // Debug: Print date values
+                    echo "<!-- Date Start: {$date_start}, Date End: {$date_end} -->";
+
+                    $query = $query = "SELECT DATE(o.order_date) as date, v.name, i.charge_code, i.name, ol.price, SUM(ol.quantity) as total_quantity
+                    FROM order_list ol
+                    INNER JOIN orders o ON o.id = ol.order_id
+                    INNER JOIN vendors v ON v.id = ol.vendor_id
+                    INNER JOIN items i ON i.id = ol.item_id
+                    WHERE DATE(o.order_date) BETWEEN '{$date_start}' AND '{$date_end}'
+                    GROUP BY DATE(o.order_date), v.name, i.charge_code, i.name, ol.price
+                    ORDER BY DATE(o.order_date) DESC, v.name ASC, i.charge_code ASC, i.name ASC, ol.price ASC";
+          
+
+                    // Debug: Print query
+                    echo "<!-- Query: {$query} -->";
+
+                    $qry = $conn->query($query);
+
                     if ($qry) {
-                        while ($row = $qry->fetch_assoc()) {
-                            ?>
-                            <tr>
-                                <td><?php echo $row['charge_code']; ?></td>
-                                <td><?php echo $row['vendor_name']; ?></td>
-                                <td><?php echo $row['item_name']; ?></td>
-                                <td><?php echo $row['price']; ?></td>
-                                <td class="text-right"><?php echo $row['total_quantity']; ?></td>
-                            </tr>
-                            <?php 
+                        if ($qry->num_rows > 0) {
+                            while ($row = $qry->fetch_assoc()) {
+                                ?>
+                                <tr>
+                                    <td><?php echo $row['charge_code']; ?></td>
+                                    <td><?php echo $row['name']; ?></td>
+                                    <td><?php echo $row['name']; ?></td>
+                                    <td><?php echo $row['price']; ?></td>
+                                    <td class="text-right"><?php echo $row['total_quantity']; ?></td>
+                                </tr>
+                                <?php 
+                            }
+                        } else {
+                            echo "<tr><td colspan='5' class='text-center'>No Data...</td></tr>";
                         }
                     } else {
-                        echo "<tr><td colspan='5'>Error in sales query: " . $conn->error . "</td></tr>";
+                        echo "<tr><td colspan='5'>Error in summary query: " . $conn->error . "</td></tr>";
                     }
-                    if ($qry->num_rows <= 0): ?>
-                    <tr>
-                        <td class="text-center" colspan="5">No Data...</td>
-                    </tr>
-                    <?php endif; ?>
+                    ?>
                 </tbody>
             </table>
         </div>
