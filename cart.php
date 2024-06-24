@@ -10,7 +10,7 @@
                 <h3><b>Cart List</b></h3>
                 <hr class="border-dark">
                 <?php 
-                $qry = $conn->query("SELECT c.*, i.name, i.price, i.id as item_id, v.id as vendor_id FROM `cart` c INNER JOIN `items` i ON i.id = c.item_id INNER JOIN `vendors` v  ON v.id= c.vendor_id WHERE c.user_id = ".$_settings->userdata('id'));
+                $qry = $conn->query("SELECT c.*, i.name, i.price, i.id as item_id FROM `cart` c INNER JOIN `items` i ON i.id = c.item_id  WHERE c.user_id = ".$_settings->userdata('id'));
                 if(!$qry) {
                     die("Query failed: " . $conn->error);
                 }

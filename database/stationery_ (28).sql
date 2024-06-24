@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 21, 2024 at 10:00 AM
+-- Generation Time: Jun 24, 2024 at 10:43 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -31,15 +31,18 @@ CREATE TABLE IF NOT EXISTS `cart` (
   `user_id` int(11) NOT NULL,
   `item_id` int(11) NOT NULL,
   `quantity` int(10) NOT NULL,
-  `price` double NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+  `price` double NOT NULL,
+  `vendor_id` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `cart`
 --
 
-INSERT INTO `cart` (`id`, `user_id`, `item_id`, `quantity`, `price`) VALUES
-(1, 8, 89, 1, 14.85);
+INSERT INTO `cart` (`id`, `user_id`, `item_id`, `quantity`, `price`, `vendor_id`) VALUES
+(1, 8, 89, 1, 14.85, 0),
+(2, 7, 95, 1, 0.12, 0),
+(3, 7, 125, 1, 3, 0);
 
 -- --------------------------------------------------------
 
@@ -56,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `items` (
   `status` tinyint(1) NOT NULL,
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `charge_code` varchar(200) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=158 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `items`
@@ -225,7 +228,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `order_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `confirm` tinyint(1) NOT NULL,
   `request` varchar(250) CHARACTER SET utf8mb4 NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `orders`
@@ -270,7 +273,9 @@ INSERT INTO `orders` (`id`, `department`, `total_amount`, `status`, `user_id`, `
 (42, 'Purchasing', 0.032, 0, 8, '2024-06-04 12:43:50', 0, 'confirm'),
 (43, 'IT', 80, 0, 7, '2024-06-19 12:04:38', 0, 'confirm'),
 (45, 'IT', 5.2, 0, 9, '2024-06-21 10:54:37', 0, 'confirm'),
-(46, '', 23.12, 0, 9, '2024-06-21 11:14:15', 0, 'confirm');
+(46, '', 23.12, 0, 9, '2024-06-21 11:14:15', 0, 'confirm'),
+(47, 'IT', 0.48, 0, 7, '2024-06-24 08:51:53', 0, 'confirm'),
+(49, 'IT', 0, 0, 7, '2024-06-24 14:59:11', 0, 'confirm');
 
 -- --------------------------------------------------------
 
@@ -286,7 +291,7 @@ CREATE TABLE IF NOT EXISTS `order_list` (
   `price` double NOT NULL,
   `total` double NOT NULL,
   `vendor_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `order_list`
@@ -321,7 +326,8 @@ INSERT INTO `order_list` (`id`, `order_id`, `item_id`, `quantity`, `price`, `tot
 (38, 43, 143, 1, 80, 80, 0),
 (40, 45, 102, 2, 2.6, 5.2, 0),
 (41, 46, 95, 1, 0.12, 0.12, 0),
-(42, 46, 91, 1, 23, 23, 0);
+(42, 46, 91, 1, 23, 23, 0),
+(43, 47, 95, 4, 0.12, 0.48, 0);
 
 -- --------------------------------------------------------
 
@@ -334,7 +340,7 @@ CREATE TABLE IF NOT EXISTS `sales` (
   `total_amount` float NOT NULL,
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `order_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sales`
@@ -357,7 +363,9 @@ INSERT INTO `sales` (`id`, `total_amount`, `date_created`, `order_id`) VALUES
 (14, 0.032, '2024-06-04 12:43:50', 42),
 (15, 80, '2024-06-19 12:04:38', 43),
 (17, 5.2, '2024-06-21 10:54:37', 45),
-(18, 23.12, '2024-06-21 11:14:15', 46);
+(18, 23.12, '2024-06-21 11:14:15', 46),
+(19, 0.48, '2024-06-24 08:51:53', 47),
+(20, 0, '2024-06-24 14:59:11', 49);
 
 -- --------------------------------------------------------
 
@@ -370,7 +378,15 @@ CREATE TABLE IF NOT EXISTS `summary` (
   `order_id` int(11) NOT NULL,
   `total_quantity` int(11) NOT NULL,
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `summary`
+--
+
+INSERT INTO `summary` (`id`, `order_id`, `total_quantity`, `date_created`) VALUES
+(1, 47, 4, '2024-06-24 08:51:53'),
+(2, 49, 0, '2024-06-24 14:59:11');
 
 -- --------------------------------------------------------
 
@@ -544,32 +560,32 @@ ALTER TABLE `vendors`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=158;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=157;
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=47;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=50;
 --
 -- AUTO_INCREMENT for table `order_list`
 --
 ALTER TABLE `order_list`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=43;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=44;
 --
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=19;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `summary`
 --
 ALTER TABLE `summary`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `system_info`
 --
