@@ -4,7 +4,7 @@
 
 <?php if($_settings->chk_flashdata('error')): ?>
 <script>
-    alert_toast("<?php echo $_settings->flashdata('error') ?>",'error')
+    alert_toast("<?php echo $_settings->flashdata('error') ?>",'error');
 </script>
 <?php endif;?>
 
@@ -16,27 +16,31 @@
         </div> -->
     </div>
     <div class="card-body">
-        <div class="form-group col-md-1">
+        <!--<div class="form-group col-md-1">
             <button class="btn btn-flat btn-block btn-success btn-sm" type="button" id="printBTN"><i class="fa fa-print"></i> Print</button>
-        </div>
+        </div>-->
         <hr>
         <div id="printable">
             <div class="container-fluid">
                 <div class="container-fluid">
-                    <table class="table table-bordered ">
+                    <table class="table table-bordered">
                         <colgroup>
-                            <col width="5%">
-                            <col width="15%">
-                            <col width="25%">
-                            <col width="20%">
+                            <col width="1%">
                             <col width="10%">
+                            <col width="4%">
                             <col width="15%">
+                            <col width="5%">
+                            <col width="7%">
+                            <col width="5%">
+                            <col width="5%">
                         </colgroup>
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Date Order</th>
                                 <th>Department</th>
+                                <th>Items</th>
+                                <th>QTY</th>
                                 <th>Total Amount</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -45,16 +49,19 @@
                         <tbody>
                             <?php 
                             $i = 1;
-                            $qry = $conn->query("SELECT o.*, u.department FROM orders o INNER JOIN users u on u.id = o.user_id ORDER BY unix_timestamp(o.order_date) DESC ");
+                            $qry = $conn->query("SELECT o.*, u.department FROM orders o INNER JOIN users u ON u.id = o.user_id ORDER BY unix_timestamp(o.order_date) DESC");
                             if(!$qry){
-                                die("Query failed:" . $conn->error);
+                                die("Query failed: " . $conn->error);
                             }
                             while($row = $qry->fetch_assoc()):
                                 // Initialize total price
                                 $total_price = 0;
                                 // Initialize maximum decimal places
                                 $max_decimal_places = 0;
-            
+                                // Variable to store item details
+                                $item_details = [];
+                                $total_quantity = 0;
+
                                 $olist = $conn->query("SELECT o.*, i.name, i.price FROM order_list o INNER JOIN items i ON o.item_id = i.id WHERE o.order_id = '{$row['id']}'");
                                 while ($orow = $olist->fetch_assoc()):
                                     foreach ($orow as $k => $v) {
@@ -65,7 +72,11 @@
                                     $price = $orow['price'];
                                     $total_item_price = $price * $quantity;
                                     $total_price += $total_item_price;
-                                    
+
+                                    // Store item details
+                                    $item_details[] = $orow['name'];
+                                    $total_quantity += $quantity;
+
                                     // Calculate decimal places for the current item
                                     $decimal_places = strlen(substr(strrchr($total_item_price, "."), 1));
                                     $max_decimal_places = max($max_decimal_places, $decimal_places);
@@ -75,13 +86,17 @@
                                 <td class="text-center"><?php echo $i++; ?></td>
                                 <td><?php echo date("Y-m-d H:i", strtotime($row['order_date'])) ?></td>
                                 <td><?php echo $row['department'] ?></td>
+                                <td><?php echo implode("<br>", $item_details); ?></td>
+                                <td class="text-center"><?php echo $total_quantity; ?></td>
                                 <td class="text-right"><?php echo number_format($total_price, $max_decimal_places); ?></td>
                                 <td class="text-center">
                                     <?php if($row['status'] == 0): ?>
-                                        <span class="badge badge-light">Pending</span>
+                                        <span class="badge badge-light">Order Placed</span>
                                     <?php elseif($row['status'] == 1): ?>
+                                        <span class="badge badge-primary">Processing</span>
+                                    <?php elseif($row['status'] == 2): ?>
                                         <span class="badge badge-primary">Completed</span>
-                                    <?php else: ?>
+                                    <?php else : ?>
                                         <span class="badge badge-danger">Cancelled</span>
                                     <?php endif; ?>
                                 </td>
@@ -91,12 +106,18 @@
                                         <span class="sr-only">Toggle Dropdown</span>
                                     </button>
                                     <div class="dropdown-menu" role="menu">
-                                        <a class="dropdown-item" href="?page=orders/view_order&id=<?php echo $row['id'] ?>">View Order</a>
-                                        <?php /*if( $row['status'] != 4): ?>
-                                            <a class="dropdown-item confirm" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>">Confirm</a>
-                                        <?php endif */; ?>
+                                    <?php if (!isset($_GET['view'])): ?>
+                                        <div class="dropdown-item update_status" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>">
+                                            <span>Update Status</span>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item update_order_status" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>" data-status="0">Order Placed</a>
+                                            <a class="dropdown-item update_order_status" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>" data-status="1">Processing</a>
+                                            <a class="dropdown-item update_order_status" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>" data-status="2">Completed</a>
+                                            <a class="dropdown-item update_order_status" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>" data-status="3">Cancelled</a>
+                                        </div>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item delete_data" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>"><span class="fa fa-trash text-danger"></span> Delete</a>
+                                    <?php endif; ?>
                                     </div>
                                 </td>
                             </tr>
@@ -110,72 +131,63 @@
 </div>
 
 <script>
-    $(document).ready(function(){
-        $('.delete_data').click(function(){
-            _conf("Are you sure to delete this order permanently?","delete_order",[$(this).attr('data-id')])
-        })
-        /*$('.confirm').click(function(){
-            _conf("Are you sure to mark this order as confirm?","confirm",[$(this).attr('data-id')])
-        })*/
-        $('.table').dataTable();
-        $('#printBTN').click(function(){
-            var rep = $('#printable').clone();
-            var ns = $('noscript').clone().html();
-            start_loader()
-            rep.prepend(ns)
-            var nw = window.document.open('','_blank','width=900,height=600')
-                nw.document.write(rep.html())
-                nw.document.close()
-                nw.print()
-                setTimeout(function(){
-                    nw.close()
-                    end_loader()
-                },500)
-        })
-    })
-    /*function confirm($id) {
+$(document).ready(function(){
+    $('.update_order_status').click(function(){
+        var orderId = $(this).attr('data-id');
+        var newStatus = $(this).attr('data-status');
+        console.log("Updating order ID " + orderId + " to status " + newStatus); // Debugging log
+        update_status(orderId, newStatus);
+    });
+
+    function update_status(id, status) {
     start_loader();
     $.ajax({
-        url: _base_url_ + "classes/Master.php?f=confirm",
+        url: _base_url_ + "classes/Master.php?f=update_status",
         method: "POST",
-        data: { id: $id },
+        data: {id: id, status: status},
         dataType: "json",
-        error: err => {
-            console.log(err); // Log the error
+        error: function(err){
+            console.error("AJAX error: ", err.responseText);
             alert_toast("An error occurred.", 'error');
             end_loader();
         },
-        success: function(resp) {
-            if (typeof resp == 'object' && resp.status == 'success') {
+        success: function(resp){
+            console.log("Server response: ", resp); // Log response for debugging
+            if (typeof resp === 'object' && resp.status === 'success') {
                 location.reload();
             } else {
-                alert_toast("An error occurred: " + resp.err, 'error');
+                console.error("Update failed: ", resp);
+                alert_toast("An error occurred.", 'error');
                 end_loader();
             }
         }
     });
-}*/
+}
 
-    function delete_order($id){
+});
+
+
+
+    function delete_order(id){
         start_loader();
         $.ajax({
-            url:_base_url_+"classes/Master.php?f=delete_order",
-            method:"POST",
-            data:{id: $id},
-            dataType:"json",
-            error:err=>{
-                console.log(err)
-                alert_toast("An error occured.",'error');
+            url: _base_url_ + "classes/Master.php?f=delete_order",
+            method: "POST",
+            data: {id: id},
+            dataType: "json",
+            error: function(err){
+                console.log("AJAX error: ", err);
+                alert_toast("An error occurred.", 'error');
                 end_loader();
             },
-            success:function(resp){
-                if(typeof resp== 'object' && resp.status == 'success'){
+            success: function(resp){
+                if (typeof resp === 'object' && resp.status === 'success') {
                     location.reload();
-                }else{
-                    alert_toast("An error occured.",'error');
+                } else {
+                    alert_toast("An error occurred.", 'error');
                     end_loader();
                 }
             }
-        })
+        });
     }
 </script>

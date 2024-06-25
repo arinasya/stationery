@@ -90,7 +90,7 @@ $user_level = isset($_SESSION['user_level']) ? $_SESSION['user_level'] : 0;
                       <a href="<?php echo base_url ?>admin/?page=sales" class="nav-link nav-sales">
                         <i class="nav-icon fas fa-file"></i>
                         <p>
-                          Sales Report
+                          Orders Report
                         </p>
                       </a>
                     </li>

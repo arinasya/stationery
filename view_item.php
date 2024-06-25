@@ -61,6 +61,7 @@ if(!$items) {
                         <div class="d-flex">
                             <input type="hidden" name="price" value="<?php echo $item_price ?>">
                             <input type="hidden" name="item_id" value="<?php echo isset($item_id) ? $item_id : '' ?>">
+                            <input type="hidden" name="vendor_id" value="<?php echo isset($vendor_id) ? $vendor_id : '' ?>">
                             <input class="form-control text-center me-3" id="inputQuantity" type="number" value="1" style="max-width: 3rem" name="quantity">
                             <button class="btn btn-outline-dark flex-shrink-0" type="submit">
                                 <i class="bi-cart-fill me-1"></i>

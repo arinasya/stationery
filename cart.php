@@ -10,7 +10,11 @@
                 <h3><b>Cart List</b></h3>
                 <hr class="border-dark">
                 <?php 
-                $qry = $conn->query("SELECT c.*, i.name, i.price, i.id as item_id FROM `cart` c INNER JOIN `items` i ON i.id = c.item_id  WHERE c.user_id = ".$_settings->userdata('id'));
+                $qry = $conn->query("SELECT c.*, i.name, i.price, i.id as item_id, v.name as vendor_name 
+                                     FROM `cart` c 
+                                     INNER JOIN `items` i ON i.id = c.item_id  
+                                     INNER JOIN `vendors` v ON v.id = c.vendor_id 
+                                     WHERE c.user_id = ".$_settings->userdata('id'));
                 if(!$qry) {
                     die("Query failed: " . $conn->error);
                 }
@@ -39,6 +43,7 @@
                         <div>
                             <p class="mb-1 mb-sm-1"><?php echo $row['name'] ?></p>
                             <p class="mb-1 mb-sm-1"><small><b>Price:</b> <span class="price"><?php echo $item_price ?></span></small></p>
+                            <p class="mb-1 mb-sm-1"><small><b>Vendor:</b> <?php echo $row['vendor_name'] ?></small></p>
                             <div>
                                 <div class="input-group" style="width:130px !important">
                                     <div class="input-group-prepend">

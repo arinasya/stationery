@@ -60,7 +60,7 @@ $date_end = isset($_GET['date_end']) ? $_GET['date_end'] : date("Y-m-d");
                     // Debug: Print date values
                     echo "<!-- Date Start: {$date_start}, Date End: {$date_end} -->";
 
-                    $query = $query = "SELECT DATE(o.order_date) as date, v.name, i.charge_code, i.name, ol.price, SUM(ol.quantity) as total_quantity
+                    $query = $query = "SELECT DATE(o.order_date) as date, v.name as vendor_name, i.charge_code , i.name as item_name, ol.price, SUM(ol.quantity) as total_quantity
                     FROM order_list ol
                     INNER JOIN orders o ON o.id = ol.order_id
                     INNER JOIN vendors v ON v.id = ol.vendor_id
@@ -81,8 +81,8 @@ $date_end = isset($_GET['date_end']) ? $_GET['date_end'] : date("Y-m-d");
                                 ?>
                                 <tr>
                                     <td><?php echo $row['charge_code']; ?></td>
-                                    <td><?php echo $row['name']; ?></td>
-                                    <td><?php echo $row['name']; ?></td>
+                                    <td><?php echo $row['vendor_name']; ?></td>
+                                    <td><?php echo $row['item_name']; ?></td>
                                     <td><?php echo $row['price']; ?></td>
                                     <td class="text-right"><?php echo $row['total_quantity']; ?></td>
                                 </tr>

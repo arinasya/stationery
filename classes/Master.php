@@ -271,68 +271,79 @@ Class Master extends DBConnection {
 		return json_encode($resp);
  
 	}
-function add_to_cart() {
-    $user_id = $this->settings->userdata('id');
-     // Sanitize price input
-	 $_POST['price'] = str_replace(",", "", $_POST['price']);
-       // Prepare data for insertion
-    $data = [];
-    foreach($_POST as $k => $v){
-      if(!in_array($k, array('id'))){
-        $data[$k] = $this->conn->real_escape_string($v);
-      }
-    }
-    $data['user_id'] = $user_id;
-     // Prepare the check query
-	 $item_id = $this->conn->real_escape_string($_POST['item_id']);
-	 $vendor_id = $this->conn->real_escape_string($_POST['vendor_id']);
-	 $check_query = "SELECT * FROM cart WHERE item_id = '{$item_id}' AND user_id = '{$user_id}'";
-	 $check = $this->conn->query($check_query)->num_rows;
-   
-	// Check for any errors
-    if($this->capture_err()) {
-		error_log("Error: " . $this->capture_err());
-		return $this->capture_err();
-	  }
+	function add_to_cart() {
+		$user_id = $this->settings->userdata('id');
+		// Sanitize price input
+		$_POST['price'] = str_replace(",", "", $_POST['price']);
+		// Prepare data for insertion
+		$data = [];
+		foreach ($_POST as $k => $v) {
+			if (!in_array($k, array('id'))) {
+				$data[$k] = $this->conn->real_escape_string($v);
+			}
+		}
+		$data['user_id'] = $user_id;
 	
-
-     // Determine if we need to update or insert
-	 if($check > 0){
-		$quantity = intval($_POST['quantity']);
-		$sql = "UPDATE cart SET quantity = quantity + ? WHERE item_id = ?  , user_id = ? AND vendor_id = ?";
-		$stmt = $this->conn->prepare($sql);
-		$stmt->bind_param("iss", $quantity, $item_id, $user_id, $vendor_id);
-	  } else {
-		$columns = implode(", ", array_keys($data));
-		$placeholders = implode(", ", array_fill(0, count($data), "?"));
-		$sql = "INSERT INTO cart ($columns) VALUES ($placeholders)";
-		$stmt = $this->conn->prepare($sql);
-		$stmt->bind_param(str_repeat("s", count($data)), ...array_values($data));
-	  }
+		// Validate required fields
+		if (!isset($_POST['item_id']) || !isset($_POST['vendor_id']) || !isset($_POST['quantity'])) {
+			return json_encode(['status' => 'failed', 'err' => 'Missing required fields']);
+		}
 	
-	  // Execute the query
-	  $save = $stmt->execute();
+		$item_id = $this->conn->real_escape_string($_POST['item_id']);
+		$vendor_id = $this->conn->real_escape_string($_POST['vendor_id']);
 	
-	  // Check for any errors
-	  if($this->capture_err()) {
-		error_log("Error: " . $this->capture_err());
-		return $this->capture_err();
-	  }
+		// Prepare the check query
+		$check_query = "SELECT * FROM cart WHERE item_id = ? AND user_id = ? AND vendor_id = ?";
+		$stmt = $this->conn->prepare($check_query);
+		$stmt->bind_param("iii", $item_id, $user_id, $vendor_id);
+		$stmt->execute();
+		$check = $stmt->get_result()->num_rows;
 	
-	  // Prepare the response
-	  if($save){
-		$cart_count_query = "SELECT SUM(quantity) AS item FROM cart WHERE user_id = '{$user_id}'";
-		$cart_count_result = $this->conn->query($cart_count_query)->fetch_assoc()['item'];
-		$resp['status'] = 'success';
-		$resp['cart_count'] = $cart_count_result;
-	  } else {
-		$resp['status'] = 'failed';
-		$resp['err'] = $this->conn->error . "[{$sql}]"; 
-		error_log("SQL Error: " . $resp['err']);
-	  }
+		if ($this->capture_err()) {
+			error_log("Error: " . $this->capture_err());
+			return $this->capture_err();
+		}
 	
-	  return json_encode($resp);
+		// Determine if we need to update or insert
+		if ($check > 0) {
+			$quantity = intval($_POST['quantity']);
+			$sql = "UPDATE cart SET quantity = quantity + ? WHERE item_id = ? AND user_id = ? AND vendor_id = ?";
+			$stmt = $this->conn->prepare($sql);
+			$stmt->bind_param("iiii", $quantity, $item_id, $user_id, $vendor_id);
+		} else {
+			$columns = implode(", ", array_keys($data));
+			$placeholders = implode(", ", array_fill(0, count($data), "?"));
+			$sql = "INSERT INTO cart ($columns) VALUES ($placeholders)";
+			$stmt = $this->conn->prepare($sql);
+			$stmt->bind_param(str_repeat("s", count($data)), ...array_values($data));
+		}
+	
+		// Execute the query
+		$save = $stmt->execute();
+	
+		if ($this->capture_err()) {
+			error_log("Error: " . $this->capture_err());
+			return $this->capture_err();
+		}
+	
+		// Prepare the response
+		if ($save) {
+			$cart_count_query = "SELECT SUM(quantity) AS item FROM cart WHERE user_id = ?";
+			$stmt = $this->conn->prepare($cart_count_query);
+			$stmt->bind_param("i", $user_id);
+			$stmt->execute();
+			$cart_count_result = $stmt->get_result()->fetch_assoc()['item'];
+			$resp['status'] = 'success';
+			$resp['cart_count'] = $cart_count_result;
+		} else {
+			$resp['status'] = 'failed';
+			$resp['err'] = $this->conn->error . "[{$sql}]";
+			error_log("SQL Error: " . $resp['err']);
+		}
+	
+		return json_encode($resp);
 	}
+	
 	
 
 	
@@ -341,7 +352,7 @@ function add_to_cart() {
 	function update_cart_qty(){
 		extract($_POST);
 		
-		$save = $this->conn->query("UPDATE `cart` set quantity = '{$quantity}' where id = '{$id}'");
+		$save = $this->conn->query("UPDATE `cart` set quantity = '{$quantity}' where id = '{$id}' AND user_id = '{$user_id}' AND vendor_id = '{$vendor_id}'");
 		if($this->capture_err())
 			return $this->capture_err();
 		if($save){
@@ -368,7 +379,7 @@ function add_to_cart() {
 	}
 	function delete_cart(){
 		extract($_POST);
-		$delete = $this->conn->query("DELETE FROM `cart` where id = '{$id}'");
+		$delete = $this->conn->query("DELETE FROM `cart` where id = '{$id}' AND user_id = '{$user_id}' AND vendor_id = '{$vendor_id}'");
 		if($this->capture_err())
 			return $this->capture_err();
 		if($delete){
@@ -467,16 +478,24 @@ function add_to_cart() {
 			}
 	
 			// Insert into summary table
-			$stmt = $this->conn->prepare("INSERT INTO `summary` (order_id, total_quantity) VALUES (?, ?)");
-			if ($stmt === false) {
-				throw new Exception("Prepare statement for summary table failed: " . $this->conn->error);
+			$vendor_ids = [];
+			$cart->data_seek(0);
+			while($row = $cart->fetch_assoc()){
+				if(!in_array($row['vendor_id'], $vendor_ids)) {
+					$vendor_ids[] = $row['vendor_id'];
+				}
 			}
-	
-			$stmt->bind_param("ii", $order_id, $total_quantity); // Corrected data types
-			if (!$stmt->execute()) {
-				throw new Exception("Execute statement for summary table failed: " . $stmt->error);
+			foreach ($vendor_ids as $vendor_id){
+				$stmt = $this->conn->prepare("INSERT INTO `summary` (order_id, total_quantity, vendor_id) VALUES (?, ?, ?)");
+				if($stmt == false){
+
+					throw new Exception("Prepare statement for summary table failed: " .$this->conn->error);
+				}
+				$stmt->bind_param("iii", $order_id, $total_quantity, $vendor_id);
+				if(!$stmt->execute()){
+					throw new Exception("Execute statement for summary table failed:" . $stmt->error);
+				}
 			}
-	
 			// Commit the transaction
 			$this->conn->commit();
 	
@@ -497,19 +516,21 @@ function add_to_cart() {
 	
 	
 	
-	function update_order_status(){
+	public function update_status() {
 		extract($_POST);
-		$update = $this->conn->query("UPDATE `orders` SET `status` = '$status' WHERE id = '{$id}' ");
+		$update = $this->conn->query("UPDATE orders SET status = '{$status}' WHERE id = '{$id}'");
 		if($update){
 			$resp['status'] = 'success';
-			$this->settings->set_flashdata("success", "Order status successfully updated.");
-
 		}else{
-			$resp['status'] = 'success';
-			$resp['err'] =$this->conn->error;
+			$resp['status'] = 'failed';
+			$resp['error'] = $this->conn->error;
 		}
+		// Log the response
+		error_log(json_encode($resp));
 		return json_encode($resp);
 	}
+	
+	
 	 function confirm() {
 		extract($_POST);
 		$update = $this->conn->query("UPDATE `orders` SET `confirm` = '1' WHERE id = '{$id}' ");
@@ -578,7 +599,7 @@ switch ($action) {
 		echo $Master->place_order();
 	break;
 	case 'update_order_status':
-		echo $Master->update_order_status();
+		echo $Master->update_status();
 	break;
 	case 'confirm':
 		echo $Master->confirm();

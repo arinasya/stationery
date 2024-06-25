@@ -4,9 +4,10 @@
         <div class="form-group">
             <label for="" class="control-label">Status</label>
             <select name="status" id="" class="custom-select custol-select-sm">
-                <option value="0" <?php echo $_GET['status'] == 0 ? "selected" : '' ?>>Pending</option>
-                <option value="1" <?php echo $_GET['status'] == 1 ? "selected" : '' ?>>Completed</option>
-                <option value="2" <?php echo $_GET['status'] == 2 ? "selected" : '' ?>>Cancelled</option>
+                <option value="0" <?php echo $_GET['status'] == 0 ? "selected" : '' ?>>Order Placed</option>
+                <option value="1" <?php echo $_GET['status'] == 1 ? "selected" : '' ?>>Processing</option>
+                <option value="2" <?php echo $_GET['status'] == 2 ? "selected" : '' ?>>Completed</option>
+                <option value="3" <?php echo $_GET['status'] == 3 ? "selected" : '' ?>>Cancelled</option>
             </select>
         </div>
     </form>
