@@ -530,7 +530,23 @@ Class Master extends DBConnection {
 		return json_encode($resp);
 	}
 	
+	public function cancel_order_with_reason(){
+		extract($_POST);
+		$data = " status = 3 "; // Set status to 'Cancelled'
+		$data .= ", cancellation_reasons = '{$cancellation_reasons}' "; // Correct field name
+		$update = $this->conn->query("UPDATE orders SET {$data} WHERE id = '{$id}'");
+		if($update){
+			return json_encode(array('status'=>'success'));
+		}else{
+			return json_encode(array('status'=>'failed', 'error'=>$this->conn->error));
+		}
+	}
 	
+	
+	
+	
+
+
 	 function confirm() {
 		extract($_POST);
 		$update = $this->conn->query("UPDATE `orders` SET `confirm` = '1' WHERE id = '{$id}' ");
@@ -598,8 +614,11 @@ switch ($action) {
 	case 'place_order':
 		echo $Master->place_order();
 	break;
-	case 'update_order_status':
+	case 'update_status':
 		echo $Master->update_status();
+	break;
+	case 'cancel_order_with_reason':
+		echo $Master->cancel_order_with_reason();
 	break;
 	case 'confirm':
 		echo $Master->confirm();
