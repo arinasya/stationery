@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 24, 2024 at 10:43 AM
+-- Generation Time: Jun 26, 2024 at 05:15 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -33,16 +33,14 @@ CREATE TABLE IF NOT EXISTS `cart` (
   `quantity` int(10) NOT NULL,
   `price` double NOT NULL,
   `vendor_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `cart`
 --
 
 INSERT INTO `cart` (`id`, `user_id`, `item_id`, `quantity`, `price`, `vendor_id`) VALUES
-(1, 8, 89, 1, 14.85, 0),
-(2, 7, 95, 1, 0.12, 0),
-(3, 7, 125, 1, 3, 0);
+(1, 8, 89, 1, 14.85, 0);
 
 -- --------------------------------------------------------
 
@@ -227,55 +225,57 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `user_id` int(11) NOT NULL,
   `order_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `confirm` tinyint(1) NOT NULL,
-  `request` varchar(250) CHARACTER SET utf8mb4 NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1;
+  `request` varchar(250) CHARACTER SET utf8mb4 NOT NULL,
+  `cancellation_reasons` text CHARACTER SET utf8mb4 NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `department`, `total_amount`, `status`, `user_id`, `order_date`, `confirm`, `request`) VALUES
-(2, '', 0, 0, 7, '2024-05-28 09:25:23', 0, ''),
-(3, 'IT', 0, 0, 7, '2024-05-28 09:25:28', 0, ''),
-(4, '', 0, 0, 7, '2024-05-28 09:33:18', 0, ''),
-(5, '', 0, 0, 7, '2024-05-28 09:37:37', 1, ''),
-(6, '', 0, 0, 7, '2024-05-28 09:48:02', 0, ''),
-(7, '', 0, 0, 7, '2024-05-28 10:32:09', 0, ''),
-(8, '', 0, 0, 7, '2024-05-28 10:41:55', 0, ''),
-(9, '', 0, 0, 7, '2024-05-28 10:42:15', 0, ''),
-(10, '', 0, 0, 7, '2024-05-28 12:40:18', 0, ''),
-(11, '', 0, 0, 7, '2024-05-28 12:40:40', 0, ''),
-(12, '', 0, 0, 7, '2024-05-28 12:40:47', 0, ''),
-(13, '', 0, 0, 7, '2024-05-28 12:42:19', 0, 'confirm'),
-(14, '', 0, 0, 7, '2024-05-28 12:42:20', 0, 'confirm'),
-(15, '', 0, 0, 7, '2024-05-28 12:45:00', 0, 'confirm'),
-(16, '', 0, 0, 7, '2024-05-28 12:56:05', 0, ''),
-(17, '', 0, 0, 7, '2024-05-28 14:06:18', 0, ''),
-(18, '', 0, 0, 7, '2024-05-28 14:10:32', 0, ''),
-(19, '', 0, 0, 7, '2024-05-28 14:20:39', 0, ''),
-(20, '', 0, 0, 7, '2024-05-28 14:20:43', 0, ''),
-(21, '', 0, 0, 7, '2024-05-28 14:21:24', 0, ''),
-(22, '', 0, 0, 8, '2024-05-29 09:32:57', 0, ''),
-(23, '', 0, 0, 8, '2024-05-29 09:35:24', 0, ''),
-(24, '', 0, 0, 8, '2024-05-29 10:36:10', 0, ''),
-(27, '', 0, 0, 8, '2024-05-29 11:25:31', 0, ''),
-(28, '', 0, 0, 8, '2024-05-29 12:05:30', 0, ''),
-(29, '', 0, 0, 8, '2024-05-29 12:35:35', 0, 'confirm'),
-(30, '', 0, 0, 8, '2024-05-29 12:46:57', 0, 'confirm'),
-(31, '', 0, 0, 8, '2024-05-29 14:26:18', 0, 'confirm'),
-(32, '', 0, 0, 8, '2024-05-29 14:39:13', 0, 'confirm'),
-(33, '', 0, 0, 8, '2024-05-29 14:49:12', 0, '0'),
-(35, 'purchasing', 0, 0, 8, '2024-05-29 15:01:21', 0, 'confirm'),
-(36, '', 0, 0, 8, '2024-05-29 15:46:25', 0, 'confirm'),
-(39, '', 0, 0, 7, '2024-05-31 10:47:49', 0, 'confirm'),
-(40, '', 11.8, 0, 7, '2024-05-31 10:58:57', 0, 'confirm'),
-(41, 'purchasing', 1235.1, 1, 8, '2024-06-01 08:50:16', 1, 'confirm'),
-(42, 'Purchasing', 0.032, 0, 8, '2024-06-04 12:43:50', 0, 'confirm'),
-(43, 'IT', 80, 0, 7, '2024-06-19 12:04:38', 0, 'confirm'),
-(45, 'IT', 5.2, 0, 9, '2024-06-21 10:54:37', 0, 'confirm'),
-(46, '', 23.12, 0, 9, '2024-06-21 11:14:15', 0, 'confirm'),
-(47, 'IT', 0.48, 0, 7, '2024-06-24 08:51:53', 0, 'confirm'),
-(49, 'IT', 0, 0, 7, '2024-06-24 14:59:11', 0, 'confirm');
+INSERT INTO `orders` (`id`, `department`, `total_amount`, `status`, `user_id`, `order_date`, `confirm`, `request`, `cancellation_reasons`) VALUES
+(2, '', 0, 0, 7, '2024-05-28 09:25:23', 0, '', ''),
+(3, 'IT', 0, 0, 7, '2024-05-28 09:25:28', 0, '', ''),
+(4, '', 0, 0, 7, '2024-05-28 09:33:18', 0, '', ''),
+(5, '', 0, 0, 7, '2024-05-28 09:37:37', 1, '', ''),
+(6, '', 0, 0, 7, '2024-05-28 09:48:02', 0, '', ''),
+(7, '', 0, 0, 7, '2024-05-28 10:32:09', 0, '', ''),
+(8, '', 0, 0, 7, '2024-05-28 10:41:55', 0, '', ''),
+(9, '', 0, 0, 7, '2024-05-28 10:42:15', 0, '', ''),
+(10, '', 0, 0, 7, '2024-05-28 12:40:18', 0, '', ''),
+(11, '', 0, 0, 7, '2024-05-28 12:40:40', 0, '', ''),
+(12, '', 0, 0, 7, '2024-05-28 12:40:47', 0, '', ''),
+(13, '', 0, 0, 7, '2024-05-28 12:42:19', 0, 'confirm', ''),
+(14, '', 0, 0, 7, '2024-05-28 12:42:20', 0, 'confirm', ''),
+(15, '', 0, 0, 7, '2024-05-28 12:45:00', 0, 'confirm', ''),
+(16, '', 0, 0, 7, '2024-05-28 12:56:05', 0, '', ''),
+(17, '', 0, 0, 7, '2024-05-28 14:06:18', 0, '', ''),
+(18, '', 0, 0, 7, '2024-05-28 14:10:32', 0, '', ''),
+(19, '', 0, 0, 7, '2024-05-28 14:20:39', 0, '', ''),
+(20, '', 0, 0, 7, '2024-05-28 14:20:43', 0, '', ''),
+(21, '', 0, 0, 7, '2024-05-28 14:21:24', 0, '', ''),
+(22, '', 0, 0, 8, '2024-05-29 09:32:57', 0, '', ''),
+(23, '', 0, 0, 8, '2024-05-29 09:35:24', 0, '', ''),
+(24, '', 0, 0, 8, '2024-05-29 10:36:10', 0, '', ''),
+(27, '', 0, 0, 8, '2024-05-29 11:25:31', 0, '', ''),
+(28, '', 0, 0, 8, '2024-05-29 12:05:30', 0, '', ''),
+(29, '', 0, 0, 8, '2024-05-29 12:35:35', 0, 'confirm', ''),
+(30, '', 0, 0, 8, '2024-05-29 12:46:57', 0, 'confirm', ''),
+(31, '', 0, 0, 8, '2024-05-29 14:26:18', 0, 'confirm', ''),
+(32, '', 0, 0, 8, '2024-05-29 14:39:13', 0, 'confirm', ''),
+(33, '', 0, 0, 8, '2024-05-29 14:49:12', 0, '0', ''),
+(35, 'purchasing', 0, 0, 8, '2024-05-29 15:01:21', 0, 'confirm', ''),
+(36, '', 0, 0, 8, '2024-05-29 15:46:25', 0, 'confirm', ''),
+(39, '', 0, 0, 7, '2024-05-31 10:47:49', 0, 'confirm', ''),
+(40, '', 11.8, 0, 7, '2024-05-31 10:58:57', 0, 'confirm', ''),
+(41, 'purchasing', 1235.1, 1, 8, '2024-06-01 08:50:16', 1, 'confirm', ''),
+(42, 'Purchasing', 0.032, 0, 8, '2024-06-04 12:43:50', 0, 'confirm', ''),
+(43, 'IT', 80, 0, 7, '2024-06-19 12:04:38', 0, 'confirm', ''),
+(45, 'IT', 5.2, 0, 9, '2024-06-21 10:54:37', 0, 'confirm', ''),
+(46, '', 23.12, 0, 9, '2024-06-21 11:14:15', 0, 'confirm', ''),
+(47, 'IT', 0.48, 3, 7, '2024-06-24 08:51:53', 0, 'confirm', ''),
+(53, 'IT', 15.24, 1, 7, '2024-06-25 11:58:58', 0, 'confirm', ''),
+(54, 'IT', 0.12, 3, 7, '2024-06-25 12:07:22', 0, 'confirm', '');
 
 -- --------------------------------------------------------
 
@@ -291,7 +291,7 @@ CREATE TABLE IF NOT EXISTS `order_list` (
   `price` double NOT NULL,
   `total` double NOT NULL,
   `vendor_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `order_list`
@@ -327,7 +327,10 @@ INSERT INTO `order_list` (`id`, `order_id`, `item_id`, `quantity`, `price`, `tot
 (40, 45, 102, 2, 2.6, 5.2, 0),
 (41, 46, 95, 1, 0.12, 0.12, 0),
 (42, 46, 91, 1, 23, 23, 0),
-(43, 47, 95, 4, 0.12, 0.48, 0);
+(43, 47, 95, 4, 0.12, 0.48, 0),
+(48, 53, 95, 2, 0.12, 0.24, 8),
+(49, 53, 90, 1, 15, 15, 6),
+(50, 54, 95, 1, 0.12, 0.12, 8);
 
 -- --------------------------------------------------------
 
@@ -340,7 +343,7 @@ CREATE TABLE IF NOT EXISTS `sales` (
   `total_amount` float NOT NULL,
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `order_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sales`
@@ -365,7 +368,8 @@ INSERT INTO `sales` (`id`, `total_amount`, `date_created`, `order_id`) VALUES
 (17, 5.2, '2024-06-21 10:54:37', 45),
 (18, 23.12, '2024-06-21 11:14:15', 46),
 (19, 0.48, '2024-06-24 08:51:53', 47),
-(20, 0, '2024-06-24 14:59:11', 49);
+(24, 15.24, '2024-06-25 11:58:58', 53),
+(25, 0.12, '2024-06-25 12:07:22', 54);
 
 -- --------------------------------------------------------
 
@@ -377,16 +381,19 @@ CREATE TABLE IF NOT EXISTS `summary` (
 `id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `total_quantity` int(11) NOT NULL,
-  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `vendor_id` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `summary`
 --
 
-INSERT INTO `summary` (`id`, `order_id`, `total_quantity`, `date_created`) VALUES
-(1, 47, 4, '2024-06-24 08:51:53'),
-(2, 49, 0, '2024-06-24 14:59:11');
+INSERT INTO `summary` (`id`, `order_id`, `total_quantity`, `date_created`, `vendor_id`) VALUES
+(1, 47, 4, '2024-06-24 08:51:53', 0),
+(3, 53, 3, '2024-06-25 11:58:58', 8),
+(4, 53, 3, '2024-06-25 11:58:58', 6),
+(5, 54, 1, '2024-06-25 12:07:22', 8);
 
 -- --------------------------------------------------------
 
@@ -560,7 +567,7 @@ ALTER TABLE `vendors`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `items`
 --
@@ -570,22 +577,22 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=157;
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=50;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=55;
 --
 -- AUTO_INCREMENT for table `order_list`
 --
 ALTER TABLE `order_list`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=44;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=51;
 --
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT for table `summary`
 --
 ALTER TABLE `summary`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `system_info`
 --

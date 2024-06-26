@@ -26,7 +26,7 @@
                         <col width="7%">
                         <col width="5%">
                         <col width="5%">
-                        <!--<col width="15%">  Added for cancellation reason -->
+                        <col width="15%">  
                     </colgroup>
                     <thead>
                         <tr>
@@ -38,7 +38,7 @@
                             <th>Total Amount</th>
                             <th>Status</th>
                             <th>Action</th>
-                            <!--<th>Cancellation Reason</th>  Added column header -->
+                            <th>Cancellation Reason</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -108,7 +108,7 @@
                                     <a class="dropdown-item delete_data" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>"><span class="fa fa-trash text-danger"></span> Delete</a>
                                 </div>
                             </td>
-                            <!--<td><? //php echo $row['cancellation_reasons']; ?></td>  Display cancellation reason -->
+                            <td><?php echo $row['cancellation_reasons']; ?></td>  
                         </tr>
                         <?php endwhile; ?>
                     </tbody>
@@ -140,11 +140,10 @@
                             <option value="3">Cancelled</option>
                         </select>
                     </div>
-                   <!-- <div class="form-group" id="cancellation_reason_group" style="display: none;">
+                        <div class="form-group" id="cancellation_reason_group" style="display: none;">
                         <label for="cancellation_reasons" class="control-label">Reason for Cancellation</label>
                         <textarea name="cancellation_reasons" id="cancellation_reasons" class="form-control" rows="3"></textarea>
-                    </div>-->
-
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

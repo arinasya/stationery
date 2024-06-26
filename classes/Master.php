@@ -517,18 +517,21 @@ Class Master extends DBConnection {
 	
 	
 	public function update_status() {
-		extract($_POST);
-		$update = $this->conn->query("UPDATE orders SET status = '{$status}' WHERE id = '{$id}'");
-		if($update){
-			$resp['status'] = 'success';
-		}else{
-			$resp['status'] = 'failed';
-			$resp['error'] = $this->conn->error;
-		}
-		// Log the response
-		error_log(json_encode($resp));
-		return json_encode($resp);
-	}
+        global $conn;
+        extract($_POST);
+        $status = intval($status);
+        $cancellation_reasons = isset($cancellation_reasons) ? $conn->real_escape_string($cancellation_reasons) : '';
+
+        // Update query including cancellation reasons
+        $update_sql = "UPDATE orders SET status = $status, cancellation_reasons = '$cancellation_reasons' WHERE id = $id";
+        
+        if($conn->query($update_sql)) {
+            return json_encode(['status' => 'success']);
+        } else {
+            return json_encode(['status' => 'error', 'error' => $conn->error]);
+        }
+    }
+
 	
 	public function cancel_order_with_reason(){
 		extract($_POST);
