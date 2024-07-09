@@ -55,46 +55,43 @@ if(isset($_GET['id']) && $_GET['id']>0){
     <a class="btn btn-flat btn-default" href="?page=users">Cancel</a>
 </div>
 <script>
-    $('#user-form').submit(function(e){
-        e.preventDefault();
-        var _this = $(this)
-        $('.err-msg').remove();
-        start_loader();
-        $.ajax({
-            url:_base_url_+"classes/Master.php?f=save_users",
-            data: new FormData($(this)[0]),
-            cache: false,
-            contentType: false,
-            processData: false,
-            method: 'POST',
-            type: 'POST',
-            dataType: 'json',
-            error:err=>{
-                console.log(err)
-                alert_toast("An error occured", 'error');
+   $('#user-form').submit(function(e){
+    e.preventDefault();
+    var _this = $(this);
+    $('.err-msg').remove();
+    start_loader();
+    $.ajax({
+        url: _base_url_ + "classes/Master.php?f=save_users",
+        data: new FormData($(this)[0]),
+        cache: false,
+        contentType: false,
+        processData: false,
+        method: 'POST',
+        type: 'POST',
+        dataType: 'json',
+        error: err => {
+            console.log(err);
+            alert_toast("An error occurred", 'error');
+            end_loader();
+        },
+        success: function(resp) {
+            if (typeof resp == 'object' && resp.status == 'success') {
+                location.href = "./?page=users";
+            } else if (resp.status == 'failed' && !!resp.msg) {
+                var el = $('<div>');
+                el.addClass("alert alert-danger err-msg").text(resp.msg);
+                _this.prepend(el);
+                el.show('slow');
+                $("html, body").animate({scrollTop: _this.closest('.card').offset().top}, "fast");
                 end_loader();
-
-            },
-            success:function(resp){
-                if(typeof resp =='object' && resp.status == 'success'){
-                    location.href = "./?page=users";
-
-                }else if(resp.status == 'failed' && !!resp.msg){
-                    var el = $('<div>')
-                    el.addClass("alert alert-danger err-msg").text(resp.msg)
-                    _this.prepend(el)
-                    el.show('slow')
-                    $("html, body").animate({scrollTop:_this.closest('.card').offset().top}, "fast");
-                    end_loader()
-
-                }else{
-                    alert_toast("An error occured",'error');
-                    end_loader();
-                    console.log(resp)
-                }
+            } else {
+                alert_toast("An error occurred", 'error');
+                end_loader();
+                console.log(resp);
             }
-        })
-    })
+        }
+    });
+});
 
     $('.summernote').summernote({
 		        height: 200,

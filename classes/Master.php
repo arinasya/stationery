@@ -211,53 +211,55 @@ Class Master extends DBConnection {
 		return json_encode($resp);
  
 	}
-     function save_users(){
+	function save_users(){
 		$save = null;
 		$sql = "";
 		extract($_POST);
-		//Validate password
-		$password_pattern= '/^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*()-_+=])[a-zA-Z0-9!@#$%^&*()-_+=]{8,}$/';
+		
+		// Validate password
+		$password_pattern = '/^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*()-_+=])[a-zA-Z0-9!@#$%^&*()-_+=]{8,}$/';
 		if (!preg_match($password_pattern, $password)) {
 			$resp['status'] = 'failed';
 			$resp['msg'] = 'Password must contain at least 1 symbol, 1 number, 1 uppercase letter, and be at least 8 characters long.';
 			return json_encode($resp);
 		}
-		//hash password
-		$_POST['password']= md5($password);
-
-		$data ="";
+	
+		// Hash password
+		$_POST['password'] = md5($password);
+	
+		$data = "";
 		foreach($_POST as $k => $v){
 			if(!in_array($k, array('id'))){
 				if(!empty($data)) $data .= ",";
 				$data .= "{$k}= '{$v}'";
 			}
 		}
-		//Insert or update data
+	
+		// Insert or update data
 		if(empty($id)){
 			$sql = "INSERT INTO users SET {$data}";
 			$save = $this->conn->query($sql);
-		}
-		else{
+		} else {
 			$sql = "UPDATE `users` set {$data} where id = '{$id}' ";
 			$save = $this->conn->query($sql);
 		}
-		//check if the operation was successful
-	    if($save){
+	
+		// Check if the operation was successful
+		if($save){
 			$resp['status'] = 'success';
 			if(empty($id))
-			   $this->settings->set_flashdata('success','Account successfully created.');
+				$this->settings->set_flashdata('success','Account successfully created.');
 			else
-			   $this->settings->set_flashdata('success','Account successfully updated.');
-			foreach($_POST as $k => $v){
-				$this->settings->set_userdata($k,$v);
-			}
-			$this->settings->set_userdata('id',$id);
-		}else{
+				$this->settings->set_flashdata('success','Account successfully updated.');
+		} else {
 			$resp['status'] = 'failed';
 			$resp['err'] = $this->conn->error."[{$sql}]";
 		}
 		return json_encode($resp);
-	 }
+	}
+	
+	
+	
 	 function delete_user(){
 		extract($_POST);
 		$del = $this->conn->query("DELETE FROM `users` where id = '{$id}'");
