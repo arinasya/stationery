@@ -13,10 +13,9 @@
         <h3 class="card-title">List of Orders</h3>
     </div>
     <div class="card-body">
-        <hr>
-        <div id="printable">
-            <div class="container-fluid">
-                <table class="table table-bordered">
+    <div class="container-fluid">
+        <div class="container-fluid">
+			<table class="table table-bordered table-stripped">
                     <colgroup>
                         <col width="1%">
                         <col width="10%">
