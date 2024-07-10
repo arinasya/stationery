@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 26, 2024 at 05:15 AM
+-- Generation Time: Jul 10, 2024 at 09:06 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -33,14 +33,15 @@ CREATE TABLE IF NOT EXISTS `cart` (
   `quantity` int(10) NOT NULL,
   `price` double NOT NULL,
   `vendor_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `cart`
 --
 
 INSERT INTO `cart` (`id`, `user_id`, `item_id`, `quantity`, `price`, `vendor_id`) VALUES
-(1, 8, 89, 1, 14.85, 0);
+(8, 8, 3, 1, 9.9, 3),
+(9, 8, 89, 1, 14.85, 5);
 
 -- --------------------------------------------------------
 
@@ -208,7 +209,6 @@ INSERT INTO `items` (`id`, `name`, `price`, `vendor_id`, `description`, `status`
 (152, 'ARTLINE MARKER PEN 70       BLACK', 2.9, 3, '&lt;p&gt;ARTLINE MARKER PEN 70&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;BLACK&lt;br&gt;&lt;/p&gt;', 1, '2024-06-10 10:39:44', '52525043'),
 (153, 'ARTLINE MARKER PEN 70       BLUE', 2.9, 3, '&lt;p&gt;ARTLINE MARKER PEN 70&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;BLUE&lt;br&gt;&lt;/p&gt;', 1, '2024-06-10 10:41:46', '52520089'),
 (154, 'ARTLINE MARKER PEN 70       RED', 2.9, 3, '&lt;p&gt;ARTLINE MARKER PEN 70&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;RED&lt;br&gt;&lt;/p&gt;', 1, '2024-06-10 10:43:28', '52520090'),
-(155, 'Test', 12, 6, '&lt;p&gt;Test&lt;/p&gt;', 1, '2024-06-11 10:41:29', '0145'),
 (156, 'QMS ROLL', 4.5, 3, '&lt;p&gt;qms roll&amp;nbsp;&lt;/p&gt;', 1, '2024-06-12 10:36:38', '52525032');
 
 -- --------------------------------------------------------
@@ -227,55 +227,38 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `confirm` tinyint(1) NOT NULL,
   `request` varchar(250) CHARACTER SET utf8mb4 NOT NULL,
   `cancellation_reasons` text CHARACTER SET utf8mb4 NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`id`, `department`, `total_amount`, `status`, `user_id`, `order_date`, `confirm`, `request`, `cancellation_reasons`) VALUES
-(2, '', 0, 0, 7, '2024-05-28 09:25:23', 0, '', ''),
-(3, 'IT', 0, 0, 7, '2024-05-28 09:25:28', 0, '', ''),
-(4, '', 0, 0, 7, '2024-05-28 09:33:18', 0, '', ''),
-(5, '', 0, 0, 7, '2024-05-28 09:37:37', 1, '', ''),
-(6, '', 0, 0, 7, '2024-05-28 09:48:02', 0, '', ''),
 (7, '', 0, 0, 7, '2024-05-28 10:32:09', 0, '', ''),
-(8, '', 0, 0, 7, '2024-05-28 10:41:55', 0, '', ''),
-(9, '', 0, 0, 7, '2024-05-28 10:42:15', 0, '', ''),
-(10, '', 0, 0, 7, '2024-05-28 12:40:18', 0, '', ''),
-(11, '', 0, 0, 7, '2024-05-28 12:40:40', 0, '', ''),
-(12, '', 0, 0, 7, '2024-05-28 12:40:47', 0, '', ''),
-(13, '', 0, 0, 7, '2024-05-28 12:42:19', 0, 'confirm', ''),
-(14, '', 0, 0, 7, '2024-05-28 12:42:20', 0, 'confirm', ''),
-(15, '', 0, 0, 7, '2024-05-28 12:45:00', 0, 'confirm', ''),
-(16, '', 0, 0, 7, '2024-05-28 12:56:05', 0, '', ''),
-(17, '', 0, 0, 7, '2024-05-28 14:06:18', 0, '', ''),
-(18, '', 0, 0, 7, '2024-05-28 14:10:32', 0, '', ''),
-(19, '', 0, 0, 7, '2024-05-28 14:20:39', 0, '', ''),
-(20, '', 0, 0, 7, '2024-05-28 14:20:43', 0, '', ''),
-(21, '', 0, 0, 7, '2024-05-28 14:21:24', 0, '', ''),
-(22, '', 0, 0, 8, '2024-05-29 09:32:57', 0, '', ''),
-(23, '', 0, 0, 8, '2024-05-29 09:35:24', 0, '', ''),
-(24, '', 0, 0, 8, '2024-05-29 10:36:10', 0, '', ''),
 (27, '', 0, 0, 8, '2024-05-29 11:25:31', 0, '', ''),
 (28, '', 0, 0, 8, '2024-05-29 12:05:30', 0, '', ''),
 (29, '', 0, 0, 8, '2024-05-29 12:35:35', 0, 'confirm', ''),
-(30, '', 0, 0, 8, '2024-05-29 12:46:57', 0, 'confirm', ''),
 (31, '', 0, 0, 8, '2024-05-29 14:26:18', 0, 'confirm', ''),
 (32, '', 0, 0, 8, '2024-05-29 14:39:13', 0, 'confirm', ''),
 (33, '', 0, 0, 8, '2024-05-29 14:49:12', 0, '0', ''),
-(35, 'purchasing', 0, 0, 8, '2024-05-29 15:01:21', 0, 'confirm', ''),
-(36, '', 0, 0, 8, '2024-05-29 15:46:25', 0, 'confirm', ''),
+(35, 'purchasing', 0, 2, 8, '2024-05-29 15:01:21', 0, 'confirm', ''),
+(36, '', 0, 2, 8, '2024-05-29 15:46:25', 0, 'confirm', ''),
 (39, '', 0, 0, 7, '2024-05-31 10:47:49', 0, 'confirm', ''),
 (40, '', 11.8, 0, 7, '2024-05-31 10:58:57', 0, 'confirm', ''),
 (41, 'purchasing', 1235.1, 1, 8, '2024-06-01 08:50:16', 1, 'confirm', ''),
 (42, 'Purchasing', 0.032, 0, 8, '2024-06-04 12:43:50', 0, 'confirm', ''),
-(43, 'IT', 80, 0, 7, '2024-06-19 12:04:38', 0, 'confirm', ''),
+(43, 'IT', 80, 3, 7, '2024-06-19 12:04:38', 0, 'confirm', 'no\n'),
 (45, 'IT', 5.2, 0, 9, '2024-06-21 10:54:37', 0, 'confirm', ''),
-(46, '', 23.12, 0, 9, '2024-06-21 11:14:15', 0, 'confirm', ''),
+(46, '', 23.12, 3, 9, '2024-06-21 11:14:15', 0, 'confirm', 'order cancel by user'),
 (47, 'IT', 0.48, 3, 7, '2024-06-24 08:51:53', 0, 'confirm', ''),
-(53, 'IT', 15.24, 1, 7, '2024-06-25 11:58:58', 0, 'confirm', ''),
-(54, 'IT', 0.12, 3, 7, '2024-06-25 12:07:22', 0, 'confirm', '');
+(53, 'IT', 15.24, 2, 7, '2024-06-25 11:58:58', 0, 'confirm', ''),
+(54, 'IT', 0.12, 2, 7, '2024-06-25 12:07:22', 0, 'confirm', ''),
+(55, 'IT', 8.6, 2, 7, '2024-07-02 15:47:43', 0, 'confirm', ''),
+(56, 'IT', 42.85, 3, 7, '2024-07-04 09:55:27', 0, 'confirm', ''),
+(57, 'IT', 3, 3, 7, '2024-07-04 11:50:08', 0, 'confirm', ''),
+(58, 'Maternity', 12, 0, 10, '2024-07-09 10:39:36', 0, 'confirm', ''),
+(59, 'Maternity', 3, 2, 10, '2024-07-09 15:39:09', 0, 'confirm', ''),
+(60, 'Billing', 14.85, 0, 17, '2024-07-10 14:44:47', 0, 'confirm', '');
 
 -- --------------------------------------------------------
 
@@ -291,7 +274,7 @@ CREATE TABLE IF NOT EXISTS `order_list` (
   `price` double NOT NULL,
   `total` double NOT NULL,
   `vendor_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `order_list`
@@ -300,16 +283,10 @@ CREATE TABLE IF NOT EXISTS `order_list` (
 INSERT INTO `order_list` (`id`, `order_id`, `item_id`, `quantity`, `price`, `total`, `vendor_id`) VALUES
 (1, 7, 3, 1, 9.9, 9.9, 0),
 (2, 7, 148, 1, 0.032, 0.032, 0),
-(3, 9, 2, 1, 123, 123, 0),
-(4, 17, 2, 1, 123, 123, 0),
-(5, 18, 2, 1, 123, 123, 0),
-(6, 19, 2, 1, 123, 123, 0),
-(7, 21, 2, 1, 123, 123, 0),
 (14, 27, 80, 1, 3, 3, 0),
 (15, 27, 100, 1, 0.08, 0.08, 0),
 (16, 28, 141, 1, 0.85, 0.85, 0),
 (17, 29, 73, 1, 7, 7, 0),
-(18, 30, 2, 1, 123, 123, 0),
 (19, 31, 23, 1, 4.8, 4.8, 0),
 (20, 32, 30, 1, 0.08, 0.08, 0),
 (21, 33, 103, 1, 2.6, 2.6, 0),
@@ -330,7 +307,16 @@ INSERT INTO `order_list` (`id`, `order_id`, `item_id`, `quantity`, `price`, `tot
 (43, 47, 95, 4, 0.12, 0.48, 0),
 (48, 53, 95, 2, 0.12, 0.24, 8),
 (49, 53, 90, 1, 15, 15, 6),
-(50, 54, 95, 1, 0.12, 0.12, 8);
+(50, 54, 95, 1, 0.12, 0.12, 8),
+(51, 55, 5, 1, 7.5, 7.5, 3),
+(52, 55, 13, 1, 1.1, 1.1, 3),
+(53, 56, 89, 1, 14.85, 14.85, 5),
+(54, 56, 90, 1, 15, 15, 6),
+(55, 56, 92, 1, 13, 13, 6),
+(56, 57, 125, 1, 3, 3, 8),
+(57, 58, 111, 1, 12, 12, 8),
+(58, 59, 125, 1, 3, 3, 8),
+(59, 60, 89, 1, 14.85, 14.85, 5);
 
 -- --------------------------------------------------------
 
@@ -343,7 +329,7 @@ CREATE TABLE IF NOT EXISTS `sales` (
   `total_amount` float NOT NULL,
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `order_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sales`
@@ -353,7 +339,6 @@ INSERT INTO `sales` (`id`, `total_amount`, `date_created`, `order_id`) VALUES
 (1, 0, '2024-05-29 11:25:31', 27),
 (2, 0, '2024-05-29 12:05:30', 28),
 (3, 0, '2024-05-29 12:35:35', 29),
-(4, 0, '2024-05-29 12:46:57', 30),
 (5, 0, '2024-05-29 14:26:18', 31),
 (6, 0, '2024-05-29 14:39:13', 32),
 (7, 0, '2024-05-29 14:49:12', 33),
@@ -369,7 +354,13 @@ INSERT INTO `sales` (`id`, `total_amount`, `date_created`, `order_id`) VALUES
 (18, 23.12, '2024-06-21 11:14:15', 46),
 (19, 0.48, '2024-06-24 08:51:53', 47),
 (24, 15.24, '2024-06-25 11:58:58', 53),
-(25, 0.12, '2024-06-25 12:07:22', 54);
+(25, 0.12, '2024-06-25 12:07:22', 54),
+(26, 8.6, '2024-07-02 15:47:43', 55),
+(27, 42.85, '2024-07-04 09:55:27', 56),
+(28, 3, '2024-07-04 11:50:08', 57),
+(29, 12, '2024-07-09 10:39:36', 58),
+(30, 3, '2024-07-09 15:39:09', 59),
+(31, 14.85, '2024-07-10 14:44:47', 60);
 
 -- --------------------------------------------------------
 
@@ -383,7 +374,7 @@ CREATE TABLE IF NOT EXISTS `summary` (
   `total_quantity` int(11) NOT NULL,
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `vendor_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `summary`
@@ -393,7 +384,14 @@ INSERT INTO `summary` (`id`, `order_id`, `total_quantity`, `date_created`, `vend
 (1, 47, 4, '2024-06-24 08:51:53', 0),
 (3, 53, 3, '2024-06-25 11:58:58', 8),
 (4, 53, 3, '2024-06-25 11:58:58', 6),
-(5, 54, 1, '2024-06-25 12:07:22', 8);
+(5, 54, 1, '2024-06-25 12:07:22', 8),
+(6, 55, 2, '2024-07-02 15:47:43', 3),
+(7, 56, 3, '2024-07-04 09:55:27', 5),
+(8, 56, 3, '2024-07-04 09:55:27', 6),
+(9, 57, 1, '2024-07-04 11:50:08', 8),
+(10, 58, 1, '2024-07-09 10:39:36', 8),
+(11, 59, 1, '2024-07-09 15:39:09', 8),
+(12, 60, 1, '2024-07-10 14:44:47', 5);
 
 -- --------------------------------------------------------
 
@@ -433,16 +431,46 @@ CREATE TABLE IF NOT EXISTS `users` (
   `status` int(1) NOT NULL,
   `last_login` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `department` text CHARACTER SET utf8mb4 NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `username`, `password`, `user_level`, `status`, `last_login`, `department`) VALUES
-(7, 'IT', 'IT', 'ab6ffb571395465f5558740d7f3f2efe', 1, 1, '2024-04-30 09:34:59', 'IT'),
-(8, 'purchasing', 'purchasing', 'eca945ce3e670c619ae34839729dd7c7', 2, 1, '2024-04-30 12:03:54', 'Purchasing'),
-(9, 'test', 'test', '13bade984aa416220470ca3f82bf5fb8', 3, 1, '2024-05-07 10:30:40', '');
+(7, 'IT', 'KLGSH-IT', 'b8893696470c8763fcb58cf395b43679', 1, 1, '2024-04-30 09:34:59', 'IT'),
+(8, 'purchasing', 'KLGSHPurchasing', 'b8893696470c8763fcb58cf395b43679', 2, 1, '2024-04-30 12:03:54', 'Purchasing'),
+(10, 'Maternity ward', 'KLGSHMAT', 'b8893696470c8763fcb58cf395b43679', 3, 1, '2024-07-09 08:43:04', 'Maternity'),
+(16, 'accident & emergency', 'klgshae', '6c832bb4b7bdfd95b9cc34924ac73d06', 3, 1, '2024-07-10 12:11:24', 'accident & emergency'),
+(17, 'Bill', 'klgshbill', 'b8893696470c8763fcb58cf395b43679', 3, 1, '2024-07-10 12:12:00', 'Billing'),
+(18, 'ca cluster clinic', 'klgshcacl', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:13:50', 'Cluster Clinic'),
+(19, 'credit control', 'klgshcc', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:14:58', 'credit control'),
+(20, 'Dialysis', 'klgshdialysis', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:15:33', 'Dialysis'),
+(21, 'Day Ward', 'klgshdward', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:16:52', 'Day ward'),
+(22, 'HR', 'klgshhr', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:18:50', 'Human Resource'),
+(23, 'ICU', 'klgshicu', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:19:27', 'ICU'),
+(24, 'LAB', 'klgshlab', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:20:01', 'Lab'),
+(25, 'Maintainance', 'klgshme', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:26:49', ' Maintaince & Engineer'),
+(26, 'Medical ward', 'klgshmed', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:27:29', 'Medical ward'),
+(27, 'OT', 'klgshot', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:28:08', 'Operation Theatre'),
+(28, 'Paediatric ward', 'klgshpaed', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:29:26', 'Paediactric Ward'),
+(29, 'Pharmacy', 'klgshpharmacy', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:30:31', 'Pharmacy'),
+(30, 'Physio', 'klgshphysio', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:31:09', 'Physio'),
+(31, 'SPD', 'klgshspd', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:32:04', 'SPD'),
+(32, 'Surgical Ward', 'klgshsurg', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:33:20', 'Surgical Ward'),
+(33, 'Wellness', 'klgshwellness', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:34:02', 'Wellness'),
+(34, 'Xray', 'klgshxray', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:35:32', 'Diagnostic & Imaging'),
+(35, 'Account', 'klgshacc', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:36:19', 'Finance'),
+(36, 'Marketing', 'klgshmarkt', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:37:02', 'Marketing'),
+(37, 'Admin', 'klgshadmin', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:37:45', 'admin'),
+(38, 'Outsource', 'klgshout', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:38:20', 'Outsource'),
+(39, 'Clinic Assistant', 'klgshca', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:39:10', 'Clinic Assistant'),
+(40, 'Endoscopy', 'klgshendo', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:39:53', 'Endoscopy'),
+(41, 'Safety Officer', 'klgshso', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:40:40', 'Safety Officer'),
+(42, 'PR', 'klgshpr', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:41:08', 'PR'),
+(43, 'Quality', 'klgshquality', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:41:51', 'Quality'),
+(44, 'Infection Control', 'klgshicn', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:43:02', 'PCI'),
+(45, 'Diet', 'klgshdiet', 'b884138a66d19fb01ca34ab50e66d7aa', 3, 1, '2024-07-10 12:43:30', 'Diet');
 
 -- --------------------------------------------------------
 
@@ -480,7 +508,7 @@ CREATE TABLE IF NOT EXISTS `vendors` (
   `name` varchar(260) NOT NULL,
   `status` tinyint(1) NOT NULL,
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `vendors`
@@ -492,8 +520,7 @@ INSERT INTO `vendors` (`id`, `name`, `status`, `date_created`) VALUES
 (5, 'PHARMASERV', 1, '2024-05-10 16:39:41'),
 (6, 'CG RIBAND', 1, '2024-05-10 16:39:55'),
 (7, 'DANAU RESOURCES', 1, '2024-05-10 16:40:10'),
-(8, 'C&B', 1, '2024-05-10 16:40:35'),
-(9, '', 0, '2024-06-21 10:46:43');
+(8, 'C&B', 1, '2024-05-10 16:40:35');
 
 --
 -- Indexes for dumped tables
@@ -567,7 +594,7 @@ ALTER TABLE `vendors`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `items`
 --
@@ -577,22 +604,22 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=157;
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=55;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=61;
 --
 -- AUTO_INCREMENT for table `order_list`
 --
 ALTER TABLE `order_list`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=51;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=60;
 --
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT for table `summary`
 --
 ALTER TABLE `summary`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `system_info`
 --
@@ -602,7 +629,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=46;
 --
 -- AUTO_INCREMENT for table `user_groups`
 --
@@ -612,7 +639,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 -- AUTO_INCREMENT for table `vendors`
 --
 ALTER TABLE `vendors`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
