@@ -1,11 +1,7 @@
-<style>
-    table td, table th {
-        padding: 3px !important;
-    }
-</style>
 <?php 
 $date_start = isset($_GET['date_start']) ? $_GET['date_start'] : date("Y-m-d", strtotime("-7 days"));
 $date_end = isset($_GET['date_end']) ? $_GET['date_end'] : date("Y-m-d");
+$vendor = isset($_GET['vendor']) ? $_GET['vendor'] : '';
 ?>
 <div class="card card-primary card-outline">
     <div class="card-header">
@@ -21,6 +17,10 @@ $date_end = isset($_GET['date_end']) ? $_GET['date_end'] : date("Y-m-d");
                 <div class="form-group col-md-3">
                     <label for="date_end">Date End</label>
                     <input type="date" class="form-control form-control-sm" name="date_end" value="<?php echo $date_end; ?>">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="vendor">Vendor</label>
+                    <input type="text" class="form-control form-control-sm" name="vendor" value="<?php echo htmlspecialchars($vendor); ?>">
                 </div>
                 <div class="form-group col-md-1">
                     <button class="btn btn-flat btn-block btn-primary btn-sm"><i class="fa fa-filter"></i> Filter</button>
@@ -60,15 +60,18 @@ $date_end = isset($_GET['date_end']) ? $_GET['date_end'] : date("Y-m-d");
                     // Debug: Print date values
                     echo "<!-- Date Start: {$date_start}, Date End: {$date_end} -->";
 
-                    $query = $query = "SELECT DATE(o.order_date) as date, v.name as vendor_name, i.charge_code , i.name as item_name, ol.price, SUM(ol.quantity) as total_quantity
-                    FROM order_list ol
-                    INNER JOIN orders o ON o.id = ol.order_id
-                    INNER JOIN vendors v ON v.id = ol.vendor_id
-                    INNER JOIN items i ON i.id = ol.item_id
-                    WHERE DATE(o.order_date) BETWEEN '{$date_start}' AND '{$date_end}'
-                    GROUP BY DATE(o.order_date), v.name, i.charge_code, i.name, ol.price
-                    ORDER BY DATE(o.order_date) DESC, v.name ASC, i.charge_code ASC, i.name ASC, ol.price ASC";
-          
+                    $vendor_filter = $vendor ? "AND v.name LIKE '%" . $conn->real_escape_string($vendor) . "%'" : '';
+
+                    $query = "
+                        SELECT DATE(o.order_date) as date, v.name as vendor_name, i.charge_code , i.name as item_name, ol.price, SUM(ol.quantity) as total_quantity
+                        FROM order_list ol
+                        INNER JOIN orders o ON o.id = ol.order_id
+                        INNER JOIN vendors v ON v.id = ol.vendor_id
+                        INNER JOIN items i ON i.id = ol.item_id
+                        WHERE DATE(o.order_date) BETWEEN '{$date_start}' AND '{$date_end}' {$vendor_filter}
+                        GROUP BY DATE(o.order_date), v.name, i.charge_code, i.name, ol.price
+                        ORDER BY DATE(o.order_date) DESC, v.name ASC, i.charge_code ASC, i.name ASC, ol.price ASC
+                    ";
 
                     // Debug: Print query
                     echo "<!-- Query: {$query} -->";
@@ -124,7 +127,7 @@ $date_end = isset($_GET['date_end']) ? $_GET['date_end'] : date("Y-m-d");
     $(function() {
         $('#filter-form').submit(function(e) {
             e.preventDefault();
-            location.href = "./?page=summary&date_start=" + $('[name="date_start"]').val() + "&date_end=" + $('[name="date_end"]').val();
+            location.href = "./?page=summary&date_start=" + encodeURIComponent($('[name="date_start"]').val()) + "&date_end=" + encodeURIComponent($('[name="date_end"]').val()) + "&vendor=" + encodeURIComponent($('[name="vendor"]').val());
         });
 
         $('#printBTN').click(function() {

@@ -4,8 +4,24 @@
             <div class="card-body">
                 <div class="w-100 justify-content-between d-flex">
                     <h4><b>Orders</b></h4>
-                   <!-- <a href="./?p=edit_account" class="btn btn-dark btn-flat"><div class="fa fa-user-cog"></div> Manage Account</a>-->
+                    <!-- <a href="./?p=edit_account" class="btn btn-dark btn-flat"><div class="fa fa-user-cog"></div> Manage Account</a>-->
                 </div>
+                <form id="filter-form" method="GET">
+                    <div class="form-row">
+                        <div class="form-group col-md-5">
+                            <label for="date_start">Start Date</label>
+                            <input type="date" class="form-control" id="date_start" name="date_start" value="<?php echo $date_start; ?>" required>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label for="date_end">End Date</label>
+                            <input type="date" class="form-control" id="date_end" name="date_end" value="<?php echo $date_end; ?>" required>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label>&nbsp;</label>
+                            <button type="submit" class="btn btn-primary btn-block">Filter</button>
+                        </div>
+                    </div>
+                </form>
                 <hr class="border-warning">
                 <table class="table table-stripped text-dark">
                     <colgroup>
@@ -33,6 +49,9 @@
                     <tbody>
                         <?php 
                             $i = 1;
+                            $date_start = isset($_GET['date_start']) ? $_GET['date_start'] : date("Y-m-d", strtotime("-7 days"));
+                            $date_end = isset($_GET['date_end']) ? $_GET['date_end'] : date("Y-m-d");
+
                             $qry = $conn->query("
                                 SELECT 
                                     o.*, 
@@ -42,6 +61,7 @@
                                     INNER JOIN `users` u ON u.id = o.user_id 
                                 WHERE 
                                     o.user_id = '".$_settings->userdata('id')."' 
+                                    AND DATE(o.order_date) BETWEEN '{$date_start}' AND '{$date_end}'
                                 ORDER BY  
                                     unix_timestamp(o.order_date) DESC
                             ");
@@ -118,85 +138,88 @@
         </div>
     </div>
     <!-- Modal HTML for Cancellation Reason -->
-<div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="cancelModalLabel">Cancel Order</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form id="cancelOrderForm">
-          <div class="form-group">
-            <label for="cancellationReason">Reason for Cancellation</label>
-            <textarea class="form-control" id="cancellationReason" name="cancellationReason" rows="3" required></textarea>
+    <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="cancelModalLabel">Cancel Order</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
-          <input type="hidden" id="cancelOrderId" name="order_id">
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger" id="submitCancelOrder">Cancel Order</button>
+          <div class="modal-body">
+            <form id="cancelOrderForm">
+              <div class="form-group">
+                <label for="cancellationReason">Reason for Cancellation</label>
+                <textarea class="form-control" id="cancellationReason" name="cancellationReason" rows="3" required></textarea>
+              </div>
+              <input type="hidden" id="cancelOrderId" name="order_id">
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger" id="submitCancelOrder">Cancel Order</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<script>
-  function showCancelModal(order_id) {
-    $('#cancelOrderId').val(order_id);
-    $('#cancelModal').modal('show');
-  }
-
-  $(function(){
-    $('.cancel_order').click(function(){
-      var order_id = $(this).data('id');
-      showCancelModal(order_id);
-    });
-
-    $('#submitCancelOrder').click(function() {
-      var order_id = $('#cancelOrderId').val();
-      var reason = $('#cancellationReason').val();
-      if (reason.trim() === '') {
-        alert('Please provide a reason for cancellation.');
-        return;
+    <script>
+      function showCancelModal(order_id) {
+        $('#cancelOrderId').val(order_id);
+        $('#cancelModal').modal('show');
       }
-      cancel_order(order_id, reason);
-    });
 
-    function cancel_order(order_id, reason) {
-      start_loader();
-      $.ajax({
-        url: _base_url_ + "classes/Master.php?f=update_status",
-        method: "POST",
-        data: {id: order_id, status: 3, cancellation_reason: reason},
-        dataType: "json",
-        error: err => {
-          console.log(err);
-          alert_toast("An error occurred", 'error');
-          end_loader();
-        },
-        success: function(resp) {
-          if (typeof resp == 'object' && resp.status == 'success') {
-            alert_toast("Order cancelled successfully", 'success');
-            setTimeout(function() {
-              location.reload();
-            }, 2000);
-          } else {
-            console.log(resp);
-            alert_toast("An error occurred", 'error');
+      $(function(){
+        $('#filter-form').submit(function(e) {
+                e.preventDefault();
+                location.href = "./?p=my_account&date_start=" + $('[name="date_start"]').val() + "&date_end=" + $('[name="date_end"]').val();
+            });
+        $('.cancel_order').click(function(){
+          var order_id = $(this).data('id');
+          showCancelModal(order_id);
+        });
+
+        $('#submitCancelOrder').click(function() {
+          var order_id = $('#cancelOrderId').val();
+          var reason = $('#cancellationReason').val();
+          if (reason.trim() === '') {
+            alert('Please provide a reason for cancellation.');
+            return;
           }
-          end_loader();
+          cancel_order(order_id, reason);
+        });
+
+        function cancel_order(order_id, reason) {
+          start_loader();
+          $.ajax({
+            url: _base_url_ + "classes/Master.php?f=update_status",
+            method: "POST",
+            data: {id: order_id, status: 3, cancellation_reason: reason},
+            dataType: "json",
+            error: err => {
+              console.log(err);
+              alert_toast("An error occurred", 'error');
+              end_loader();
+            },
+            success: function(resp) {
+              if (typeof resp == 'object' && resp.status == 'success') {
+                alert_toast("Order cancelled successfully", 'success');
+                setTimeout(function() {
+                  location.reload();
+                }, 2000);
+              } else {
+                console.log(resp);
+                alert_toast("An error occurred", 'error');
+              }
+              end_loader();
+            }
+          });
         }
+
+        $('.view_order').click(function(){
+          uni_modal("Order Details","./admin/orders/view_order.php?view=user&id="+$(this).attr('data-id'),'large');
+        });
+        $('table').dataTable();
       });
-    }
-
-    $('.view_order').click(function(){
-      uni_modal("Order Details","./admin/orders/view_order.php?view=user&id="+$(this).attr('data-id'),'large');
-    });
-    $('table').dataTable();
-  });
-</script>
-
+    </script>
